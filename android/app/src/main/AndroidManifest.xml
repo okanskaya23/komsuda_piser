@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.komsuda_piser">
+    package="com.example.komsuda_piser_local">
    <application
-        android:label="komsuda_piser"
+        android:label="komsuda_piser_local"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

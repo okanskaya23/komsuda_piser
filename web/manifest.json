@@ -1,6 +1,6 @@
 {
-    "name": "komsuda_piser",
-    "short_name": "komsuda_piser",
+    "name": "komsuda_piser_local",
+    "short_name": "komsuda_piser_local",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

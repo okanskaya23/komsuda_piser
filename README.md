@@ -1,6 +1,6 @@
-# komsuda_piser
+# komsuda_piser_local
 
-A new Flutter project.
+A new Flutter application.
 
 ## Getting Started
 
