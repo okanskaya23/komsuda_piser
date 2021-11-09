@@ -1,3 +1,5 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Utils/app_auth_service.dart';
 import 'package:komsuda_piser_local/Utils/app_button.dart';
@@ -91,8 +93,9 @@ class Login extends State<login> {
 
                         AppTextField(
                           text: 'E-Posta',
+                          validator: (value) => EmailValidator.validate(value) ? null : "Please enter a valid email",
                           readOnly: false,
-                          height: 50,
+                          height: MediaQuery. of(context). size. height/18,
                           icon: Icon(Icons.mail_outlined),
                           controller: emailController,
                         ),
@@ -101,13 +104,36 @@ class Login extends State<login> {
                         AppTextField(
                           text: 'Şifre',
                           readOnly: false,
-                          height: 50,
+                          height: MediaQuery. of(context). size. height/18,
                           icon: Icon(Icons.lock_outline),
                           obscureText: true,
                           controller: passwordController,
                         ),
                         SizedBox(height: context.height*0.01,),
-                        buildRowButtons(context),
+
+
+                        AppButton(
+                          borderColor: Appcolors.third,
+                          text: 'Giriş Yap',
+                          onPressed: () async{
+                            try {
+                              await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
+                              print("Signed in");
+                              Navigator.pushNamed(context, '/home');
+                            } on FirebaseAuthException catch (e) {
+                              print(e.message);
+
+                            }
+                            setState(() {
+                            });
+                          },
+                          height: MediaQuery. of(context). size. height/18,
+                          width: MediaQuery. of(context). size. width*0.5,
+                        ),
+
+
+                        SizedBox(height: context.height*0.005,),
+                        buildRowTexts(context),
                         SizedBox(height: 50),
                       ],
                     ),
@@ -122,38 +148,72 @@ class Login extends State<login> {
     );
   }
 
+  Row buildRowTexts(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        RichText(
+          text: TextSpan(
+              text: 'Hesabınız yok mu?  ',
+              style: h2,
+              children: <TextSpan>[
+                TextSpan(
+                    text: 'Kayıt Olun.',
+                    style: h2_clickable,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => Navigator.pushNamed(context, '/signup')),
+              ],
+           ),
+        ),
+
+        RichText(
+          text: TextSpan(
+              text: 'Şifrenizi mi unuttunuz?',
+              style: h2_clickable,
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => Navigator.pushNamed(context, '/forgot')),
+        ),
+      ],
+    );
+  }
+
+
   Row buildRowButtons(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppButton(
-          text: 'Kayıt Ol',
+          borderColor: Appcolors.third,
+          text: 'Giriş Yap',
           onPressed: () async{
-            await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                email: emailController.text.trim(),
-                password: passwordController.text.trim(),
-            );
+            try {
+              await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
+              print("Signed in");
+              Navigator.pushNamed(context, '/home');
+            } on FirebaseAuthException catch (e) {
+              print(e.message);
+
+            }
             setState(() {
             });
           },
           height: MediaQuery. of(context). size. height/18,
-          width: MediaQuery. of(context). size. width*0.2,
+          width: MediaQuery. of(context). size. width*0.22,
         ),
 
 
         AppButton(
           borderColor: Appcolors.third,
-          text: 'Giriş Yap',
+          text: 'Çıkış Yap',
           onPressed: () async{
-            await FirebaseAuth.instance.signInWithEmailAndPassword(
-              email: emailController.text.trim(),
-              password: passwordController.text.trim(),
+            await FirebaseAuth.instance.signOut(
+
             );
             setState(() {
             });
           },
           height: MediaQuery. of(context). size. height/18,
-          width: MediaQuery. of(context). size. width*0.2,
+          width: MediaQuery. of(context). size. width*0.22,
         ),
       ],
     );

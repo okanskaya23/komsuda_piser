@@ -13,7 +13,14 @@ final h2 = TextStyle(
   color: Colors.black45,
   fontSize: 15,
   fontWeight: FontWeight.w600,
-  letterSpacing: -0.6,
+  letterSpacing: -0.4,
+);
+final h2_clickable = TextStyle(
+  color: Colors.blueAccent,
+  decoration: TextDecoration.underline,
+  fontSize: 15,
+  fontWeight: FontWeight.w600,
+  letterSpacing: -0.4,
 );
 
 final h3 = TextStyle(
