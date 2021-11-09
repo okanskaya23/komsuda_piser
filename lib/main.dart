@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Pages/login_page.dart';
 import 'package:komsuda_piser_local/Pages/signup_page.dart';
 
+import 'Pages/forgot_password_page.dart';
+import 'Pages/home_page.dart';
 import 'Utils/app_colors.dart';
 
 
@@ -21,6 +23,8 @@ Future<void> main() async{
 
         '/login': (context) => login(),
         '/signup': (context) => signup(),
+        '/forgot': (context) => forgot(),
+        '/home': (context) => home(),
 
       },
     ),
