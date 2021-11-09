@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Utils/app_button.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
@@ -12,7 +14,9 @@ class signup extends StatefulWidget {
 }
 
 class Signup extends State<signup> {
-  var eMailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  var usernameController = TextEditingController();
+  var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var passwordCheckController = TextEditingController();
   @override
@@ -49,25 +53,26 @@ class Signup extends State<signup> {
                   AppTextField(
                     text: 'kullanıcı adı',
                     readOnly: false,
-                    height: 50,
+                    height: MediaQuery. of(context). size. height/18,
                     icon: Icon(Icons.person_outline),
-                    controller: eMailController,
+                    controller: usernameController,
                   ),
                   SizedBox(height: context.height*0.01,),
 
                   AppTextField(
                     text: 'E-Posta',
                     readOnly: false,
-                    height: 50,
+                    height: MediaQuery. of(context). size. height/18,
                     icon: Icon(Icons.mail_outlined),
-                    controller: eMailController,
+                    controller: emailController,
                   ),
                   SizedBox(height: context.height*0.01,),
 
                   AppTextField(
                     text: 'Şifre',
                     readOnly: false,
-                    height: 50,
+
+                    height: MediaQuery. of(context). size. height/18,
                     icon: Icon(Icons.lock_outline),
                     obscureText: true,
                     controller: passwordController,
@@ -76,20 +81,64 @@ class Signup extends State<signup> {
                   AppTextField(
                     text: 'Şifre (tekrar)',
                     readOnly: false,
-                    height: 50,
+                    height: MediaQuery. of(context). size. height/18,
                     icon: Icon(Icons.lock_outline),
                     obscureText: true,
                     controller: passwordCheckController,
                   ),
                   SizedBox(height: context.height*0.01,),
-                  buildRowButtons(context),
+                  AppButton(
+                    text: 'Kayıt Ol',
+                    onPressed: () async{
+                      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                        email: emailController.text.trim(),
+                        password: passwordController.text.trim(),
+                      );
+                      setState(() {
+                      });
+                    },
+                    height: MediaQuery. of(context). size. height/18,
+                    width: MediaQuery. of(context). size. width,
+                  ),
+                  SizedBox(height: context.height*0.01,),
+                  buildRowTexts(context),
                   SizedBox(height: 50),
+
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Row buildRowTexts(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        RichText(
+          text: TextSpan(
+            text: 'Hesabınız var mı?  ',
+            style: h2,
+            children: <TextSpan>[
+              TextSpan(
+                  text: 'Giriş Yapın.',
+                  style: h2_clickable,
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => Navigator.pushNamed(context, '/login')),
+            ],
+          ),
+        ),
+
+        RichText(
+          text: TextSpan(
+              text: 'Şifrenizi mi unuttunuz?',
+              style: h2_clickable,
+              recognizer: TapGestureRecognizer()
+                ..onTap = () => Navigator.pushNamed(context, '/forgot')),
+        ),
+      ],
     );
   }
 
