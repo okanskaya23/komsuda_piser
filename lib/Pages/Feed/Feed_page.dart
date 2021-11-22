@@ -1,21 +1,20 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:komsuda_piser_local/Utils/app_auth_service.dart';
-import 'package:komsuda_piser_local/Utils/app_button.dart';
+import 'package:komsuda_piser_local/Utils/Widgets/app_button.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
-import 'package:komsuda_piser_local/Utils/app_textField.dart';
+import 'package:komsuda_piser_local/Utils/Widgets/app_textField.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
 
-class home extends StatefulWidget {
+class feed extends StatefulWidget {
   @override
-  Home createState() => Home();
+  Feed createState() => Feed();
 }
 
-class Home extends State<home> {
+class Feed extends State<feed> {
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
@@ -28,22 +27,11 @@ class Home extends State<home> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Appcolors.background,
 
-      body: Row(
-        children:[
-          Container(
+      body: SingleChildScrollView(
+          child: Container(
+            color: Appcolors.background,
             height: MediaQuery. of(context). size. height,
-            width: MediaQuery. of(context). size. width * 0.5,
-            child: FittedBox(
-              child: Image(
-                image: AssetImage('assets/images/yemek.png'),
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
-          Container(
-            color: Appcolors.primary,
-            height: MediaQuery. of(context). size. height,
-            width: MediaQuery. of(context). size. width * 0.5,
+            width: MediaQuery. of(context). size. width,
             child: Padding(
               padding: context.paddingNormal,
               child: Column(
@@ -64,13 +52,13 @@ class Home extends State<home> {
                   ),
                   Container(
 
-                    color: Appcolors.primary,
+
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
                           child:Text(
-                            'You Are Logged in! ',
+                            'The Feed Page ',
                             style: h1,
 
                           ),
@@ -83,22 +71,7 @@ class Home extends State<home> {
 
 
                         SizedBox(height: context.height*0.01,),
-
-
-                        AppButton(
-                          borderColor: Appcolors.third,
-                          text: 'Çıkış Yap',
-
-                          onPressed: () async{
-                            _signOut();
-                            Navigator.pushNamed(context, '/login');
-                            setState(() {
-                            });
-                          },
-                          height: MediaQuery. of(context). size. height/18,
-                          width: MediaQuery. of(context). size. width*0.22,
-                        ),
-
+                        buildRowButtons(context),
                         SizedBox(height: context.height*0.005,),
                         SizedBox(height: 50),
                       ],
@@ -109,8 +82,48 @@ class Home extends State<home> {
 
             ),
           ),
-        ],
       ),
+
+    );
+  }
+  Row buildRowButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        AppButton(
+          borderColor: Appcolors.third,
+          text: 'Kontrol et',
+          onPressed: () async{
+            var user = FirebaseAuth.instance.authStateChanges().listen((user) {
+              if (user == null) {
+                print('User is currently signed out!');
+              } else {
+                print('User is signed in!\nUsername: ${user}');
+              }
+            });
+            setState(() {
+            });
+          },
+          height: MediaQuery. of(context). size. height/18,
+          width: MediaQuery. of(context). size. width*0.22,
+        ),
+
+
+        AppButton(
+          borderColor: Appcolors.third,
+          text: 'Çıkış Yap',
+          onPressed: () async{
+            await FirebaseAuth.instance.signOut(
+
+            );
+            Navigator.pushNamed(context, '/login');
+            setState(() {
+            });
+          },
+          height: MediaQuery. of(context). size. height/18,
+          width: MediaQuery. of(context). size. width*0.22,
+        ),
+      ],
     );
   }
 

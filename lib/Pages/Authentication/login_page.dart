@@ -1,10 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:komsuda_piser_local/Utils/app_auth_service.dart';
-import 'package:komsuda_piser_local/Utils/app_button.dart';
+import 'package:komsuda_piser_local/Utils/Widgets/app_button.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
-import 'package:komsuda_piser_local/Utils/app_textField.dart';
+import 'package:komsuda_piser_local/Utils/Widgets/app_textField.dart';
 import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,6 +17,7 @@ class login extends StatefulWidget {
 class Login extends State<login> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +28,11 @@ class Login extends State<login> {
       body: Row(
         children:[
           Container(
+            color: Appcolors.primary,
             height: MediaQuery. of(context). size. height,
             width: MediaQuery. of(context). size. width * 0.5,
             child: FittedBox(
+              fit: BoxFit.fill,
               child: Image(
                 image: AssetImage('assets/images/yemek2.png'),
                 fit: BoxFit.fill,
@@ -53,7 +55,9 @@ class Login extends State<login> {
                       width: MediaQuery. of(context). size. width   * 0.25,
                       child: FittedBox(
                         child: Image(
-                          image: AssetImage('assets/images/pot.png'),
+                          image: AssetImage(
+                              'assets/images/pot.png'
+                          ),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -118,8 +122,7 @@ class Login extends State<login> {
                           onPressed: () async{
                             try {
                               await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
-                              print("Signed in");
-                              Navigator.pushNamed(context, '/home');
+                              Navigator.pushNamed(context, '/');
                             } on FirebaseAuthException catch (e) {
                               print(e.message);
 
@@ -188,7 +191,6 @@ class Login extends State<login> {
           onPressed: () async{
             try {
               await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailController.text.trim(), password: passwordController.text.trim());
-              print("Signed in");
               Navigator.pushNamed(context, '/home');
             } on FirebaseAuthException catch (e) {
               print(e.message);
