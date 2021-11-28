@@ -9,9 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
 
-
-
-
 class home extends StatefulWidget {
   @override
   Home createState() => Home();
@@ -62,7 +59,7 @@ class Home extends State<home> {
                         children: [
                           Center(
                             child:Text(
-                              'The Utku Page',
+                              'The Home Page',
                               style: h1,
 
                             ),
