@@ -1,22 +1,6 @@
-import 'package:email_validator/email_validator.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:komsuda_piser_local/Pages/Profile/BannerSection.dart';
-import 'package:komsuda_piser_local/Pages/Profile/header.dart';
-import 'package:komsuda_piser_local/Pages/Profile/header_container.dart';
-import 'package:komsuda_piser_local/Pages/Profile/top_menu.dart';
-import 'package:komsuda_piser_local/Utils/Widgets/app_button.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
-import 'package:komsuda_piser_local/Utils/Widgets/app_textField.dart';
-import 'package:kartal/kartal.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
-//import 'package:komsuda_piser_local/Pages/Profile/SizeConfig.dart';
-import 'package:komsuda_piser_local/Pages/Profile/constants.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key key, this.title}) : super(key: key);
@@ -61,7 +45,7 @@ class _ProfileFirstState extends State<ProfilePage> {
                             children: <Widget>[
                               CircleAvatar(
                                 backgroundImage: NetworkImage(
-                                    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.internethaber.com%2Fherkesin-aradigi-o-teyze-bakin-nerede-bulundu-foto-galerisi-1738466.htm&psig=AOvVaw1MkNgd-ECzkHxImPx8Gbe1&ust=1638199752565000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCOCwtOmvu_QCFQAAAAAdAAAAABAV"),
+                                    "https://firebasestorage.googleapis.com/v0/b/komsudapiser-4b905.appspot.com/o/Denek%2Fteyze.jpg?alt=media&token=34579cf8-e66b-44b2-a054-a678ba70638f"),
                                 radius: 50.0,
                               ),
                               SizedBox(
