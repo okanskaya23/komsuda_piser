@@ -18,9 +18,7 @@ Future<void> main() async{
       theme: ThemeData(
         primaryColor: Appcolors.primary,
         errorColor: Appcolors.third,
-        fontFamily: "Montserrat",
       ),
-
       initialRoute: '/login',
       routes: {
 

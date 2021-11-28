@@ -3,7 +3,7 @@ import 'package:komsuda_piser_local/Utils/app_colors.dart';
 
 
 final h1 = TextStyle(
-  color: Appcolors.text,
+  color: Appcolors.black,
   fontSize: 40,
   fontWeight: FontWeight.w800,
   letterSpacing: -1,
