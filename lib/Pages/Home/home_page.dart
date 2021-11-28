@@ -59,7 +59,7 @@ class Home extends State<home> {
                         children: [
                           Center(
                             child:Text(
-                              'The Utku Page',
+                              'The Home Page',
                               style: h1,
 
                             ),
