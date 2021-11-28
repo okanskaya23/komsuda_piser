@@ -34,7 +34,7 @@ class AppTextField extends StatelessWidget {
       height: height,
       child: Theme(
         data: ThemeData(
-          primaryColor: Colors.white,
+          primaryColor: Appcolors.text,
           errorColor: Appcolors.third,
         ),
         child: TextFormField(
