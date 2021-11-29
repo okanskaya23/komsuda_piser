@@ -108,7 +108,7 @@ class Signup extends State<signup> {
                             "email" : emailController.text,
                             "zipCode": zipCodeController.text,
                             "score": "10"
-                            
+
                           }).then((value){
                         print(value.id);
                       });

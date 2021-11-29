@@ -112,7 +112,15 @@ class BannerSection extends StatelessWidget {
                     child: Container(
                       height: 50,
                       child: OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () async{
+                          var result = await firestoreInstance
+                              .collection("User")
+                              .where("zipCode", isEqualTo: "34000")
+                              .get();
+                          result.docs.forEach((res) {
+                            print(res.data());
+                          });
+                        },
                         child: Text(
                           "Pick Up",
                           style: TextStyle(
