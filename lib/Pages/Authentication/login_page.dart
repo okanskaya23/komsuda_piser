@@ -73,7 +73,6 @@ class Login extends State<login> {
                           child:Text(
                             'Komşuda Pişer',
                             style: h1,
-
                           ),
                         ),
                         SizedBox(height: context.height * 0.005,),

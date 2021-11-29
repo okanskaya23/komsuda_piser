@@ -21,12 +21,10 @@ Future<void> main() async{
       ),
       initialRoute: '/login',
       routes: {
-
         '/login': (context) => login(),
         '/signup': (context) => signup(),
         '/forgot': (context) => forgot(),
         '/': (context) => navigatorPage(),
-
       },
     ),
   );
