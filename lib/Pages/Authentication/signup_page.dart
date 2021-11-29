@@ -6,6 +6,8 @@ import 'package:komsuda_piser_local/Utils/app_colors.dart';
 import 'package:komsuda_piser_local/Utils/Widgets/app_textField.dart';
 import 'package:kartal/kartal.dart';
 import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class signup extends StatefulWidget {
@@ -14,11 +16,13 @@ class signup extends StatefulWidget {
 }
 
 class Signup extends State<signup> {
+  final firestoreInstance = FirebaseFirestore.instance;
   final formKey = GlobalKey<FormState>();
   var usernameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var passwordCheckController = TextEditingController();
+  var zipCodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +71,14 @@ class Signup extends State<signup> {
                     controller: emailController,
                   ),
                   SizedBox(height: context.height*0.01,),
+                  AppTextField(
+                    text: 'ZipCode',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    icon: Icon(Icons.mail_outlined),
+                    controller: zipCodeController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
 
                   AppTextField(
                     text: 'Şifre',
@@ -90,6 +102,16 @@ class Signup extends State<signup> {
                   AppButton(
                     text: 'Kayıt Ol',
                     onPressed: () async{
+                      firestoreInstance.collection("User").add(
+                          {
+                            "name" : usernameController.text,
+                            "email" : emailController.text,
+                            "zipCode": zipCodeController.text,
+                            "score": "10"
+                            
+                          }).then((value){
+                        print(value.id);
+                      });
                       await FirebaseAuth.instance.createUserWithEmailAndPassword(
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
