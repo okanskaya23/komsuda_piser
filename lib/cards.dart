@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
 import 'package:komsuda_piser_local/users.dart';
 
+import 'Pages/Profile/profile_page.dart';
+
+
 class UserCards extends StatelessWidget {
   final List<User> userList = [
     User("Ayşe Teyze", 7.0, 62),
@@ -37,7 +40,9 @@ class UserCards extends StatelessWidget {
                   ),
                   Spacer(),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()),);
+                    },
                     child: Text(
                       "Go to Profile",
                       style: TextStyle(
