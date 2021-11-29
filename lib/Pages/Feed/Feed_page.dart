@@ -24,6 +24,7 @@ class Feed extends State<feed> {
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
+  final firestoreInstance = FirebaseFirestore.instance;
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   @override
@@ -99,6 +100,18 @@ class Feed extends State<feed> {
           borderColor: Appcolors.third,
           text: 'Kontrol et',
           onPressed: () async{
+            firestoreInstance.collection("User").add(
+                {
+                  "name" : "utku",
+                  "age" : 13443,
+                  "email" : "1231234@exa1234123mple.com",
+                  "address" : {
+                    "street" : "123413241234 24",
+                    "city" : "1234123412341234123 york"
+                  }
+                }).then((value){
+              print(value.id);
+            });
 
             var user = FirebaseAuth.instance.authStateChanges().listen((user) {
               if (user == null) {
