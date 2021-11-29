@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
+import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BannerSection extends StatelessWidget {
   const BannerSection({
@@ -8,6 +12,8 @@ class BannerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final firestoreInstance = FirebaseFirestore.instance;
+
     return Row(
       children: <Widget>[
 
@@ -76,7 +82,13 @@ class BannerSection extends StatelessWidget {
                     child: MaterialButton(
                       color: Appcolors.secondary,
                       height: 55,
-                      onPressed: () {},
+                      onPressed: () {
+                        firestoreInstance.collection("User").get().then((querySnapshot) {
+                          querySnapshot.docs.forEach((result) {
+                            print(result.data());
+                          });
+                        });
+                      },
                       child: Text(
                         "Delivery",
                         style: TextStyle(color: Colors.white),
