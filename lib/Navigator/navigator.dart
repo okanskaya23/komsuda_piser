@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Pages/Feed/Feed_page.dart';
-import 'package:komsuda_piser_local/Pages/Home/home_page.dart';
+import 'package:komsuda_piser_local/Pages/Feed/stateless_feed.dart';
+import 'package:komsuda_piser_local/Pages/Profile/header_container.dart';
+import 'package:komsuda_piser_local/Pages/Profile/profile_page.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
 import 'package:komsuda_piser_local/Navigator/bottom_bar/app_bottom_bar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -32,16 +34,21 @@ class NavigatorPage extends State<navigatorPage>
   List<ContentView> contentViews = [
     ContentView(
       tab: CustomTab(title: 'Ana Sayfa',icon: Icons.home),
-      content: home(),
+      content: HeaderContainer(),
     ),
     ContentView(
       tab: CustomTab(title: 'Yakındakiler',icon: Icons.dynamic_feed),
-      content: feed(),
+      content: sttlsfeed(),
+    ),
+    ContentView(
+      tab: CustomTab(title: 'Ayarlar',icon: Icons.account_circle_sharp),
+      content: ProfilePage(),
     ),
     ContentView(
       tab: CustomTab(title: 'Ayarlar',icon: Icons.settings),
       content: feed(),
-    )
+    ),
+
   ];
 
   @override

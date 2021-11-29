@@ -8,6 +8,12 @@ import 'package:kartal/kartal.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+// Import the firebase_core and cloud_firestore plugin
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class feed extends StatefulWidget {
   @override
@@ -18,6 +24,7 @@ class Feed extends State<feed> {
   Future<void> _signOut() async {
     await FirebaseAuth.instance.signOut();
   }
+  final firestoreInstance = FirebaseFirestore.instance;
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   @override
@@ -83,8 +90,7 @@ class Feed extends State<feed> {
             ),
           ),
       ),
-
-    );
+      );
   }
   Row buildRowButtons(BuildContext context) {
     return Row(
@@ -94,6 +100,19 @@ class Feed extends State<feed> {
           borderColor: Appcolors.third,
           text: 'Kontrol et',
           onPressed: () async{
+            firestoreInstance.collection("User").add(
+                {
+                  "name" : "utku",
+                  "age" : 13443,
+                  "email" : "1231234@exa1234123mple.com",
+                  "address" : {
+                    "street" : "123413241234 24",
+                    "city" : "1234123412341234123 york"
+                  }
+                }).then((value){
+              print(value.id);
+            });
+
             var user = FirebaseAuth.instance.authStateChanges().listen((user) {
               if (user == null) {
                 print('User is currently signed out!');
