@@ -89,8 +89,7 @@ class Feed extends State<feed> {
             ),
           ),
       ),
-
-    );
+      );
   }
   Row buildRowButtons(BuildContext context) {
     return Row(

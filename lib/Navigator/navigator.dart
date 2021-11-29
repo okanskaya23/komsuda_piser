@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Pages/Feed/Feed_page.dart';
+import 'package:komsuda_piser_local/Pages/Feed/stateless_feed.dart';
 import 'package:komsuda_piser_local/Pages/Profile/header_container.dart';
 import 'package:komsuda_piser_local/Pages/Profile/profile_page.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
@@ -37,7 +38,7 @@ class NavigatorPage extends State<navigatorPage>
     ),
     ContentView(
       tab: CustomTab(title: 'Yakındakiler',icon: Icons.dynamic_feed),
-      content: feed(),
+      content: sttlsfeed(),
     ),
     ContentView(
       tab: CustomTab(title: 'Ayarlar',icon: Icons.account_circle_sharp),
