@@ -16,115 +16,33 @@ class mail extends StatefulWidget {
 }
 
 class Mail extends State<mail> {
-  final firestoreInstance = FirebaseFirestore.instance;
-  final formKey = GlobalKey<FormState>();
-  var usernameController = TextEditingController();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var passwordCheckController = TextEditingController();
-  var zipCodeController = TextEditingController();
-  var DevlivryTypeController = TextEditingController();
+  final db = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Appcolors.primary,
-
-      body: Padding(
-        padding: context.paddingNormal,
-        child: Column(
-          children: [
-
-
-            Container(
-
-              color: Appcolors.primary,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: context.height*0.1,),
-                  Divider(),
-
-                  SizedBox(height: context.height*0.02,),
-
-                  Text(
-                    'Yemek Ekleyin .',
-                    style: h2,
+      appBar: AppBar(
+        title: Text("Orders Recived"),
+        centerTitle: true,
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: db.collection('Order').where("Email_teyze", isEqualTo: "kısırlarınefendisi@gmail.com").snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else
+            return ListView(
+              children: snapshot.data.docs.map((doc) {
+                return Card(
+                  child: ListTile(
+                    title: Text(doc.data().toString()),
                   ),
-
-                  SizedBox(height: context.height*0.01,),
-
-                  AppTextField(
-                    text: 'Yemek Adı',
-                    readOnly: false,
-                    height: MediaQuery. of(context). size. height/18,
-                    icon: Icon(Icons.person_outline),
-                    controller: usernameController,
-                  ),
-                  SizedBox(height: context.height*0.01,),
-
-                  AppTextField(
-                    text: 'E-Posta',
-                    readOnly: false,
-                    height: MediaQuery. of(context). size. height/18,
-                    icon: Icon(Icons.mail_outlined),
-                    controller: emailController,
-                  ),
-                  SizedBox(height: context.height*0.01,),
-
-
-                  AppTextField(
-                    text: 'Yemek Fiyatı',
-                    readOnly: false,
-                    height: MediaQuery. of(context). size. height/18,
-                    obscureText: true,
-                    controller: passwordController,
-                  ),
-                  SizedBox(height: context.height*0.01,),
-
-                  AppTextField(
-                    text: 'Yemek Teslimat sistemi',
-                    readOnly: false,
-                    height: MediaQuery. of(context). size. height/18,
-                    obscureText: true,
-                    controller: DevlivryTypeController,
-                  ),
-                  SizedBox(height: context.height*0.01,),
-
-
-                  AppButton(
-                    text: 'Yemek Ekle',
-                    onPressed: () async{
-                      firestoreInstance.collection("Food").add(
-                          {
-                            "name" : usernameController.text,
-                            "email" : emailController.text,
-                            "Price": passwordController.text,
-                            "DelivryType": DevlivryTypeController.text,
-
-                          }).then((value){
-                        print(value.id);
-                      });
-
-                      setState(() {
-                      });
-                    },
-                    height: MediaQuery. of(context). size. height/18,
-                    width: MediaQuery. of(context). size. width,
-                  ),
-                  SizedBox(height: context.height*0.01,),
-                  SizedBox(height: 50),
-
-                ],
-              ),
-            ),
-          ],
-        ),
+                );
+              }).toList(),
+            );
+        },
       ),
     );
   }
-
-
-
 }

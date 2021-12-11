@@ -91,7 +91,7 @@ class BannerSection extends StatelessWidget {
                       },
                       child: Text(
                         "Delivery",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Appcolors.primary),
                       ),
                     ),
                   ),
@@ -102,7 +102,7 @@ class BannerSection extends StatelessWidget {
                     child: Text(
                       "or",
                       style: TextStyle(
-                        color: Appcolors.secondary,
+                        color: Appcolors.primary,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
@@ -124,7 +124,7 @@ class BannerSection extends StatelessWidget {
                         child: Text(
                           "Pick Up",
                           style: TextStyle(
-                            color: Appcolors.secondary,
+                            color: Appcolors.primary,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
