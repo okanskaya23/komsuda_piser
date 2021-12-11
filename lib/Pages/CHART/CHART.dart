@@ -19,12 +19,6 @@ class chart extends StatefulWidget {
 class Chart extends State<chart> {
   final firestoreInstance = FirebaseFirestore.instance;
   final formKey = GlobalKey<FormState>();
-  var usernameController = TextEditingController();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var passwordCheckController = TextEditingController();
-  var zipCodeController = TextEditingController();
-  var DevlivryTypeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
