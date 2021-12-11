@@ -21,7 +21,7 @@ class Mail extends State<mail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Orders Recived"),
+        title: Text("Bu Sayfa kısırlarınefendisi@gmail.com gelmiş her orderı gösteriyor emaili usera bağlayınca doğru kullanıcalar için gösterecek"),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
