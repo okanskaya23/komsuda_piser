@@ -4,19 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Utils/Widgets/app_button.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
 import 'package:komsuda_piser_local/Utils/Widgets/app_textField.dart';
-import 'package:komsuda_piser_local/Pages/CHART/CHART.dart';
 import 'package:kartal/kartal.dart';
 import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 
-class chart extends StatefulWidget {
+class mail extends StatefulWidget {
   @override
-  Chart createState() => Chart();
+  Mail createState() => Mail();
 }
 
-class Chart extends State<chart> {
+class Mail extends State<mail> {
   final firestoreInstance = FirebaseFirestore.instance;
   final formKey = GlobalKey<FormState>();
   var usernameController = TextEditingController();
@@ -50,23 +49,59 @@ class Chart extends State<chart> {
                   SizedBox(height: context.height*0.02,),
 
                   Text(
-                    'Gençler burda backende bağlı bir yapı var ama dataları elle girdim onu değişkenlere bağlamak gerekecek sadce ne yemek istendiğini,teyzenin mailini ve fiyatı eklersen olacak .',
+                    'Yemek Ekleyin .',
                     style: h2,
                   ),
 
                   SizedBox(height: context.height*0.01,),
 
+                  AppTextField(
+                    text: 'Yemek Adı',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    icon: Icon(Icons.person_outline),
+                    controller: usernameController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
+
+                  AppTextField(
+                    text: 'E-Posta',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    icon: Icon(Icons.mail_outlined),
+                    controller: emailController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
+
+
+                  AppTextField(
+                    text: 'Yemek Fiyatı',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    obscureText: true,
+                    controller: passwordController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
+
+                  AppTextField(
+                    text: 'Yemek Teslimat sistemi',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    obscureText: true,
+                    controller: DevlivryTypeController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
 
 
                   AppButton(
-                    text: 'Give Order',
+                    text: 'Yemek Ekle',
                     onPressed: () async{
-                      firestoreInstance.collection("Order").add(
+                      firestoreInstance.collection("Food").add(
                           {
-                            "Email_teyze" : "kısırlarınefendisi@gmail.com",
-                            "Foods" : "Kuru_Pilav,Cacık ",
-                            "Price" : "107",
-                            "Adress" : "Sabanci Universitesi B7",
+                            "name" : usernameController.text,
+                            "email" : emailController.text,
+                            "Price": passwordController.text,
+                            "DelivryType": DevlivryTypeController.text,
 
                           }).then((value){
                         print(value.id);
