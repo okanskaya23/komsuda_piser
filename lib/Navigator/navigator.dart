@@ -4,6 +4,8 @@ import 'package:komsuda_piser_local/Pages/Profile/header_container.dart';
 import 'package:komsuda_piser_local/Pages/Profile/profile_page.dart';
 import 'package:komsuda_piser_local/Pages/Settings/setting_page.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
+import 'package:komsuda_piser_local/Pages/CHART/CHART.dart';
+
 import 'package:komsuda_piser_local/Navigator/bottom_bar/app_bottom_bar.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -48,7 +50,10 @@ class NavigatorPage extends State<navigatorPage>
       tab: CustomTab(title: 'Ayarlar',icon: Icons.settings),
       content: settings(),
     ),
-
+    ContentView(
+      tab: CustomTab(title: 'Chart',icon: Icons.add_shopping_cart),
+      content: chart(),
+    ),
   ];
 
   @override
