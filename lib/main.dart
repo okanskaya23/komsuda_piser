@@ -6,6 +6,7 @@ import 'package:komsuda_piser_local/Navigator/navigator.dart';
 
 import 'Pages/Authentication/forgot_password_page.dart';
 import 'Pages/Home/home_page.dart';
+import 'Pages/Profile/profile_page.dart';
 import 'Utils/app_colors.dart';
 
 
@@ -24,6 +25,7 @@ Future<void> main() async{
         '/login': (context) => login(),
         '/signup': (context) => signup(),
         '/forgot': (context) => forgot(),
+        '/profile': (context) => ProfilePage(),
         '/': (context) => navigatorPage(),
       },
     ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
-import 'package:komsuda_piser_local/Pages/Profile/constants.dart';
-import 'package:komsuda_piser_local/Pages/Profile/BannerSection.dart';
-import 'package:komsuda_piser_local/Pages/Profile/header.dart';
+import 'package:komsuda_piser_local/Pages/Home/constants.dart';
+import 'package:komsuda_piser_local/Pages/Home/BannerSection.dart';
 
 
 

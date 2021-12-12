@@ -19,16 +19,15 @@ class Forgot extends State<forgot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       resizeToAvoidBottomInset: false,
       backgroundColor: Appcolors.background,
-
       body: Row(
         children:[
           Container(
             height: MediaQuery. of(context). size. height,
             width: MediaQuery. of(context). size. width * 0.5,
             child: FittedBox(
+              fit: BoxFit.fill,
               child: Image(
                 image: AssetImage('assets/images/yemek2.png'),
                 fit: BoxFit.fill,
