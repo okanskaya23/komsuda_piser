@@ -37,23 +37,18 @@ class Signup extends State<signup> {
 
 
             Container(
-
               color: Appcolors.primary,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: context.height*0.1,),
                   Divider(),
-
                   SizedBox(height: context.height*0.02,),
-
                   Text(
                     'Hoş geldiniz, Kayıt olmak için bilgilerinizi giriniz.',
                     style: h2,
                   ),
-
                   SizedBox(height: context.height*0.01,),
-
                   AppTextField(
                     text: 'kullanıcı adı',
                     readOnly: false,

@@ -19,10 +19,6 @@ class Feed extends State<feed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Bu Sayfa zip kodu 34000 olan çevredeki ateşli milfleri gösteriyor."),
-        centerTitle: true,
-      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: db.collection('User').where("zipCode", isEqualTo: "34000").snapshots(),
         builder: (context, snapshot) {
@@ -30,16 +26,25 @@ class Feed extends State<feed> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else
+          } else{
             return ListView(
               children: snapshot.data.docs.map((doc) {
-                return Card(
-                  child: ListTile(
-                    title: Text(doc.data().toString()),
+                return UserCard(
+                  user: UserClass(
+                    location: doc.get('zipCode'),
+                    email: doc.get('email'),
+                    points: doc.get('score'),
+                    name: doc.get('name'),
+                    username: doc.get('name'),
+                    delivery: doc.get('delivery'),
+                    profilePic: NetworkImage(
+                        "${doc.get('pp')}"
+                    ),
                   ),
                 );
               }).toList(),
             );
+          }
         },
       ),
     );

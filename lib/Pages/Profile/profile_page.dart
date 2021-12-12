@@ -1,9 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:komsuda_piser_local/Pages/Profile/food_card.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
+import 'package:komsuda_piser_local/Utils/objects/food_class.dart';
+import 'package:komsuda_piser_local/Utils/objects/user_class.dart';
+
 
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({Key key, this.title}) : super(key: key);
+  final UserClass user;
+
+  ProfilePage({Key key, this.title,
+    this.user
+  }) : super(key: key);
 
   final String title;
 
@@ -13,17 +22,53 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfileFirstState extends State<ProfilePage> {
   @override
+  final db = FirebaseFirestore.instance;
   Widget build(BuildContext context) {
+    UserClass _user = widget.user ?? UserClass(
+        name: 'ayse',
+        location: '34560',
+        username: 'ayse',
+        points: 6,
+        profilePic: NetworkImage(
+          "https://pbs.twimg.com/profile_images/918144297077223426/U9UuwJW0_400x400.jpg"
+        ),
+        delivery: false
+    );
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
+    String delivery_option(){
+      if(_user.delivery)
+        return "var";
+      return "yok";
+    }
+
+    Color delivery_color(){
+        if(_user.delivery)
+          return Colors.greenAccent;
+        return Colors.redAccent;
+    }
+
+    Color score_color(){
+      var d = _user.points;
+
+      if( d > 8.5){
+        return Colors.greenAccent;
+      }else if(d > 7){
+        return Colors.amber;
+      }else if(d > 5){
+        return Colors.redAccent;
+      }
+      return Colors.red[900];
+    }
+
+
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Row(
+      body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Expanded(
-              flex: 1,
+              flex: 0,
               child: Column(
                 children: [
                   Container(
@@ -32,27 +77,28 @@ class _ProfileFirstState extends State<ProfilePage> {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                            Colors.deepOrangeAccent,
-                            Colors.pinkAccent
-                          ])),
+                                Appcolors.secondary,
+                                Appcolors.third,
+                              ]
+                          )
+                      ),
                       child: Container(
                         width: width * 0.33,
-                        height: height,
+                        height:MediaQuery.of(context).size.height,
                         child: Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                    "https://firebasestorage.googleapis.com/v0/b/komsudapiser-4b905.appspot.com/o/Denek%2Fteyze.jpg?alt=media&token=34579cf8-e66b-44b2-a054-a678ba70638f"),
+                                backgroundImage: _user.profilePic,
                                 radius: 50.0,
                               ),
                               SizedBox(
                                 height: 10.0,
                               ),
                               Text(
-                                "Ayşe Hanım",
+                                "${_user.name}",
                                 style: TextStyle(
                                   fontSize: 22.0,
                                   color: Colors.white,
@@ -76,9 +122,9 @@ class _ProfileFirstState extends State<ProfilePage> {
                                         child: Column(
                                           children: <Widget>[
                                             Text(
-                                              "Sold food",
+                                              "Teslimat",
                                               style: TextStyle(
-                                                color: Colors.redAccent,
+                                                color: Appcolors.third,
                                                 fontSize: 22.0,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -87,10 +133,10 @@ class _ProfileFirstState extends State<ProfilePage> {
                                               height: 5.0,
                                             ),
                                             Text(
-                                              "120",
+                                              "${delivery_option()}",
                                               style: TextStyle(
                                                 fontSize: 20.0,
-                                                color: Colors.pinkAccent,
+                                                color: delivery_color(),
                                               ),
                                             )
                                           ],
@@ -100,9 +146,9 @@ class _ProfileFirstState extends State<ProfilePage> {
                                         child: Column(
                                           children: <Widget>[
                                             Text(
-                                              "Rating",
+                                              "Puan",
                                               style: TextStyle(
-                                                color: Colors.redAccent,
+                                                color: Appcolors.third,
                                                 fontSize: 22.0,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -111,12 +157,12 @@ class _ProfileFirstState extends State<ProfilePage> {
                                               height: 5.0,
                                             ),
                                             Text(
-                                              "9.8",
+                                              "${_user.points}",
                                               style: TextStyle(
                                                 fontSize: 20.0,
-                                                color: Colors.pinkAccent,
+                                                color: score_color(),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -127,97 +173,45 @@ class _ProfileFirstState extends State<ProfilePage> {
                             ],
                           ),
                         ),
-                      )),
+                      ),
+                  ),
                 ],
               ),
             ),
+
+
             Expanded(
               flex: 2,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: width * 0.33,
-                        height: height * 0.8,
-                        child: Padding(
-                          padding: const EdgeInsets.all(0.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Menu:",
-                                style: TextStyle(
-                                    color: Colors.redAccent,
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 28.0),
-                              ),
-                              SizedBox(
-                                height: 10.0,
-                              ),
-                              Text(
-                                'My name is Ayşe and I am  a freelance meal cooker. If you need any yaprak sarma '
-                                    'for your dinner then click on the button',
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black,
-                                  letterSpacing: 2.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: width * 0.33,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Appcolors.background,
-                              //onSurface: Appcolors.background,
-                              padding: EdgeInsets.all(0.0),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),
-                              ),
+              child: StreamBuilder<QuerySnapshot>(
+                stream: db.collection('Food').where("Cook", isEqualTo: _user.email).snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else{
+                    return ListView(
+                      children: snapshot.data.docs.map((doc) {
+                        return FoodCard(
+                          food: FoodClass(
+                            cook_mail: doc.get('Cook'),
+                            price: doc.get('Price'),
+                            name: doc.get('Name'),
+                            remaining: doc.get('Remaining'),
+                            picture: NetworkImage(
+                                "${doc.get('Picture')}"
                             ),
-                            onPressed: () {},
-                            child: Ink(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.centerRight,
-                                    end: Alignment.centerLeft,
-                                    colors: [Colors.redAccent, Colors.pinkAccent]),
-                                borderRadius: BorderRadius.circular(60.0),
-                              ),
-                              child: Container(
-                                constraints:
-                                BoxConstraints(maxWidth: 3000.0, minHeight: 50.0),
-                                alignment: Alignment.center,
-
-                                child: Text(
-                                  "Give Order",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 26.0,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                              ),
-                            )),
-                      ),
-                    ],
-                  ),
-                ],
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }
+                },
               ),
             ),
           ],
         ),
-      ),
+
     );
   }
 }

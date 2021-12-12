@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Pages/Feed/Feed_page.dart';
-import 'package:komsuda_piser_local/Pages/Profile/header_container.dart';
+import 'package:komsuda_piser_local/Pages/Home/header_container.dart';
+import 'package:komsuda_piser_local/Pages/Profile/own_profile_page.dart';
 import 'package:komsuda_piser_local/Pages/Profile/profile_page.dart';
-import 'package:komsuda_piser_local/Pages/Settings/setting_page.dart';
+import 'package:komsuda_piser_local/Pages/AddFood/Add_food_page.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
 import 'package:komsuda_piser_local/Pages/CHART/CHART.dart';
 import 'package:komsuda_piser_local/Pages/Mail/Mail.dart';
@@ -43,19 +44,19 @@ class NavigatorPage extends State<navigatorPage>
       content: feed(),
     ),
     ContentView(
-      tab: CustomTab(title: 'Ayarlar',icon: Icons.account_circle_sharp),
-      content: ProfilePage(),
+      tab: CustomTab(title: 'Profil',icon: Icons.account_circle_sharp),
+      content: ownProfilePage(),
     ),
     ContentView(
-      tab: CustomTab(title: 'Ayarlar',icon: Icons.settings),
+      tab: CustomTab(title: 'YemekEkle',icon: Icons.add_box),
       content: settings(),
     ),
     ContentView(
-      tab: CustomTab(title: 'Chart',icon: Icons.add_shopping_cart),
+      tab: CustomTab(title: 'Chart',icon: Icons.shopping_cart_rounded),
       content: chart(),
     ),
     ContentView(
-      tab: CustomTab(title: 'Mail',icon: Icons.seventeen_mp_sharp),
+      tab: CustomTab(title: 'Mail',icon: Icons.mail),
       content: mail(),
     ),
   ];
