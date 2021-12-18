@@ -3,17 +3,18 @@ import 'package:kartal/src/context_extension.dart';
 import 'package:komsuda_piser_local/Pages/Profile/profile_page.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
 import 'package:komsuda_piser_local/Utils/objects/food_class.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 class FoodCard extends StatelessWidget {
+  final firestoreInstance = FirebaseFirestore.instance;
 
   final FoodClass food;
   FoodCard({ this.food });
 
 
-  void add_to_cart(FoodClass f){
-    //TODO:   BURADA ALISVERIS SEPETINE f ADINDA BIR FOOD CLASS EKLENMESI GEREK OBJECT
-    //TODO:     ADLI DOSYADAN BAKABILIRSINIZ FOODCLASSIN NE OLDUGUNA.
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,15 @@ class FoodCard extends StatelessWidget {
           children: <Widget>[
             InkWell(
               onTap: () {
-                add_to_cart(food);
+                firestoreInstance.collection("Chart").add(
+                    {
+                      "Email_Teyze" : food.cook_mail,
+                      "Email_Client": FirebaseAuth.instance.currentUser.email,
+                      "Foods" : food.name,
+                    }
+                ).then((value){
+                  print(value.id);
+                });
               },
               child:
               Row(
