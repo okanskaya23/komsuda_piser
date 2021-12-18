@@ -23,6 +23,7 @@ class Signup extends State<signup> {
   var passwordController = TextEditingController();
   var passwordCheckController = TextEditingController();
   var zipCodeController = TextEditingController();
+  var ppCodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,6 +75,14 @@ class Signup extends State<signup> {
                     controller: zipCodeController,
                   ),
                   SizedBox(height: context.height*0.01,),
+                  AppTextField(
+                    text: 'Profile Picture URL',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    icon: Icon(Icons.account_circle_rounded),
+                    controller: zipCodeController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
 
                   AppTextField(
                     text: 'Şifre',
@@ -101,6 +110,7 @@ class Signup extends State<signup> {
                           {
                             "name" : usernameController.text,
                             "email" : emailController.text,
+                            "pp": ppCodeController.text,
                             "zipCode": zipCodeController.text,
                             "score": "10"
 
