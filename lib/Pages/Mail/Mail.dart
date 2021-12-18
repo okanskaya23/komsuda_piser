@@ -25,7 +25,7 @@ class Mail extends State<mail> {
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: db.collection('Order').where("email", isEqualTo: FirebaseAuth.instance.currentUser.email).snapshots(),
+        stream: db.collection('Order').where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
