@@ -22,7 +22,7 @@ class Settings extends State<settings> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var passwordCheckController = TextEditingController();
-  var zipCodeController = TextEditingController();
+  var ppURLController = TextEditingController();
   var DevlivryTypeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -64,14 +64,6 @@ class Settings extends State<settings> {
                   ),
                   SizedBox(height: context.height*0.01,),
 
-                  AppTextField(
-                    text: 'E-Posta',
-                    readOnly: false,
-                    height: MediaQuery. of(context). size. height/18,
-                    icon: Icon(Icons.mail_outlined),
-                    controller: emailController,
-                  ),
-                  SizedBox(height: context.height*0.01,),
 
 
                   AppTextField(
@@ -91,6 +83,14 @@ class Settings extends State<settings> {
                     controller: DevlivryTypeController,
                   ),
                   SizedBox(height: context.height*0.01,),
+                  AppTextField(
+                    text: 'Yemek Teslimat sistemi',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    obscureText: true,
+                    controller: ppURLController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
 
 
                   AppButton(
@@ -99,9 +99,10 @@ class Settings extends State<settings> {
                       firestoreInstance.collection("Food").add(
                           {
                             "name" : usernameController.text,
-                            "email" : emailController.text,
+                            "email" : FirebaseAuth.instance.currentUser.email,
                             "Price": passwordController.text,
                             "DelivryType": DevlivryTypeController.text,
+                            "Image" : ppURLController.text,
 
                           }).then((value){
                         print(value.id);
