@@ -4,6 +4,8 @@ import 'package:komsuda_piser_local/Utils/app_colors.dart';
 import 'package:kartal/kartal.dart';
 import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 
 
 class chart extends StatefulWidget {
@@ -45,7 +47,8 @@ class Chart extends State<chart> {
                     onPressed: () async{
                       firestoreInstance.collection("Order").add(
                           {
-                            "Email_teyze" : "kısırlarınefendisi@gmail.com",
+                            "Email_Teyze" : "kısırlarınefendisi@gmail.com",
+                            "Email_Client": FirebaseAuth.instance.currentUser.email,
                             "Foods" : "Kuru_Pilav,Cacık ",
                             "Price" : "107",
                             "Adress" : "Sabanci Universitesi B7",

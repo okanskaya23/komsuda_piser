@@ -25,7 +25,7 @@ class Mail extends State<mail> {
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: db.collection('Order').where("Email_teyze", isEqualTo: "kısırlarınefendisi@gmail.com").snapshots(),
+        stream: db.collection('Order').where("Email_Teyze", isEqualTo: "kısırlarınefendisi@gmail.com").snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
