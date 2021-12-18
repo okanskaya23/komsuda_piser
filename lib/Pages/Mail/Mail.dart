@@ -21,11 +21,11 @@ class Mail extends State<mail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bu Sayfa kısırlarınefendisi@gmail.com gelmiş her orderı gösteriyor emaili usera bağlayınca doğru kullanıcalar için gösterecek"),
+        title: Text("Oreders"),
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: db.collection('Order').where("Email_Teyze", isEqualTo: "kısırlarınefendisi@gmail.com").snapshots(),
+        stream: db.collection('Order').where("Email_Teyze", isEqualTo: FirebaseAuth.instance.currentUser.email).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(

@@ -24,6 +24,8 @@ class Signup extends State<signup> {
   var passwordCheckController = TextEditingController();
   var zipCodeController = TextEditingController();
   var ppCodeController = TextEditingController();
+  var deliveryController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,7 +73,7 @@ class Signup extends State<signup> {
                     text: 'ZipCode',
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
-                    icon: Icon(Icons.mail_outlined),
+                    icon: Icon(Icons.add_location_alt_sharp),
                     controller: zipCodeController,
                   ),
                   SizedBox(height: context.height*0.01,),
@@ -81,6 +83,14 @@ class Signup extends State<signup> {
                     height: MediaQuery. of(context). size. height/18,
                     icon: Icon(Icons.account_circle_rounded),
                     controller: zipCodeController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
+                  AppTextField(
+                    text: 'delivery Type',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    icon: Icon(Icons.cases_rounded),
+                    controller: deliveryController,
                   ),
                   SizedBox(height: context.height*0.01,),
 
@@ -112,7 +122,8 @@ class Signup extends State<signup> {
                             "email" : emailController.text,
                             "pp": ppCodeController.text,
                             "zipCode": zipCodeController.text,
-                            "score": "10"
+                            "score": "10",
+                            "delivery": deliveryController.text,
 
                           }).then((value){
                         print(value.id);
