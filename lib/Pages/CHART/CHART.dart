@@ -40,8 +40,7 @@ class Chart extends State<chart> {
                 children: [
                   Container(
                     child: StreamBuilder<QuerySnapshot>(
-                      // TODO: Buraya teyze mailini almak lazzım
-                      stream: db.collection('Chart').where("Email_Teyze", isEqualTo: "kısırlarınefendisi@gmail.com").snapshots(),
+                      stream: db.collection('Chart').where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email).snapshots(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return Center(
@@ -65,17 +64,12 @@ class Chart extends State<chart> {
                   SizedBox(height: context.height*0.1,),
                   Divider(),
                   SizedBox(height: context.height*0.02,),
-                  Text(
-                    'Gençler burda backende bağlı bir yapı var ama dataları elle girdim onu değişkenlere bağlamak gerekecek sadce ne yemek istendiğini,teyzenin mailini ve fiyatı eklersen olacak .',
-                    style: h2,
-                  ),
-                  SizedBox(height: context.height*0.01,),
                   AppButton(
                     text: 'Give Order',
                     onPressed: () async{
                       var result = await firestoreInstance
                           .collection("Chart")
-                          .where("Email_Teyze", isEqualTo: "kısırlarınefendisi@gmail.com")
+                          .where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email)
                           .get();
                       var arr = [];
                       result.docs.forEach((res) {
