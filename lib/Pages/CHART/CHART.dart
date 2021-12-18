@@ -11,9 +11,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 class chart extends StatefulWidget {
   @override
   Chart createState() => Chart();
+
 }
 
 class Chart extends State<chart> {
+  final db = FirebaseFirestore.instance;
+
   final firestoreInstance = FirebaseFirestore.instance;
   final formKey = GlobalKey<FormState>();
   @override
@@ -23,6 +26,7 @@ class Chart extends State<chart> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Appcolors.primary,
       body: Padding(
+
 
         padding: context.paddingNormal,
         child: Column(
@@ -34,6 +38,30 @@ class Chart extends State<chart> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Container(
+                    child: StreamBuilder<QuerySnapshot>(
+                      // TODO: Buraya teyze mailini almak lazzım
+                      stream: db.collection('Chart').where("Email_Teyze", isEqualTo: "kısırlarınefendisi@gmail.com").snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else
+                          return ListView(
+                            children: snapshot.data.docs.map((doc) {
+                              return Card(
+                                child: ListTile(
+                                  title: Text(doc.data().toString()),
+                                ),
+                              );
+                            }).toList(),
+                          );
+                      },
+                    ),
+                    height: MediaQuery. of(context). size. height/3,
+                    width: MediaQuery. of(context). size. width,
+                  ),
                   SizedBox(height: context.height*0.1,),
                   Divider(),
                   SizedBox(height: context.height*0.02,),
@@ -45,17 +73,37 @@ class Chart extends State<chart> {
                   AppButton(
                     text: 'Give Order',
                     onPressed: () async{
+                      var result = await firestoreInstance
+                          .collection("Chart")
+                          .where("Email_Teyze", isEqualTo: "kısırlarınefendisi@gmail.com")
+                          .get();
+                      var arr = [];
+                      result.docs.forEach((res) {
+                        var b = res.data().values.toList();
+                        for(var i in b){
+                          if(i.toString().contains("@")){
+                            print(i);
+                          }
+                          else{
+                            arr.add(i);
+                          }
+                        }
+                      });
+                      print(arr);
                       firestoreInstance.collection("Order").add(
                           {
                             "Email_Teyze" : "kısırlarınefendisi@gmail.com",
                             "Email_Client": FirebaseAuth.instance.currentUser.email,
-                            "Foods" : "Kuru_Pilav,Cacık ",
+                            "Foods" : arr,
                             "Price" : "107",
                             "Adress" : "Sabanci Universitesi B7",
 
                           }
                           ).then((value){
                         print(value.id);
+                      });
+                      result.docs.forEach((res) {
+                        firestoreInstance.collection("Chart").doc(res.id).delete();
                       });
                       setState(() {
 
