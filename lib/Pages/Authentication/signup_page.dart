@@ -98,7 +98,7 @@ class Signup extends State<signup> {
                     text: 'delivery Type',
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
-                    icon: Icon(Icons.cases_rounded),
+                    icon: Icon(Icons.cases),
                     controller: deliveryController,
                   ),
                   SizedBox(height: context.height*0.01,),

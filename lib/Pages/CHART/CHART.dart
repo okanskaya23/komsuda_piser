@@ -19,6 +19,9 @@ class Chart extends State<chart> {
 
   final firestoreInstance = FirebaseFirestore.instance;
   final formKey = GlobalKey<FormState>();
+
+  bool VISIB = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +54,10 @@ class Chart extends State<chart> {
                             children: snapshot.data.docs.map((doc) {
                               return Card(
                                 child: ListTile(
-                                  title: Text(doc.data().toString()),
+                                  leading: Icon(Icons.add_shopping_cart_rounded),
+                                  title: Text(doc.get("Foods").toString()),
+                                  onTap: ()  => removeFromChart(),
+                                  subtitle: Text(doc.get("Cost").toString()),
                                 ),
                               );
                             }).toList(),
@@ -83,9 +89,9 @@ class Chart extends State<chart> {
                       var EmailTeyze = "";
 
                       result.docs.forEach((res) {
-                          total += res.get("Cost");
-                          arr.add(res.get("Foods"));
-                          EmailTeyze = res.get("Email_Teyze");
+                        total += res.get("Cost");
+                        arr.add(res.get("Foods"));
+                        EmailTeyze = res.get("Email_Teyze");
 
 
                       });
@@ -100,7 +106,7 @@ class Chart extends State<chart> {
                             "Date" : FieldValue.serverTimestamp(),
 
                           }
-                          ).then((value){
+                      ).then((value){
                         print(value.id);
                       });
                       result.docs.forEach((res) {
