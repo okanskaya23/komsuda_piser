@@ -90,7 +90,22 @@ class Mail extends State<mail> {
                       ),
                       AppButton(
                         text: "Rate",
-                        onPressed: () {},
+                        onPressed:() async{
+
+                          var rate = rating;
+                          var email = doc.get("Email_Teyze").toString();
+                          var result = await db
+                              .collection("User")
+                              .where("email", isEqualTo: email)
+                              .get();
+                          var current = result.docs.first.id;
+                          print(current);
+                          print(rating);
+                          await FirebaseFirestore.instance.collection("User").doc(current).update({"score": FieldValue.increment(rating)});
+
+
+
+                        },
                       ),
                       /*Text(
                         "Rate user: ${rating}",
