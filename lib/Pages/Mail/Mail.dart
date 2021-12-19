@@ -21,17 +21,15 @@ class mail extends StatefulWidget {
 class Mail extends State<mail> {
   void buttonPressed(){
       if(TC == "Email_Client"){
-        TC = "Email_Teyze";
+        setState(() {
+          TC = "Email_Teyze";
+        });
       }
       else{
-        TC = "Email_Client";
+        setState(() {
+          TC = "Email_Client";
+        });
       }
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => super.widget
-          ));
-
 
   }
   final db = FirebaseFirestore.instance;
@@ -42,7 +40,7 @@ class Mail extends State<mail> {
       appBar: AppBar(
         title: AppButton(
 
-          text: "okan kasar",
+          text: "Change",
           onPressed: buttonPressed,
         ),
         centerTitle: true
