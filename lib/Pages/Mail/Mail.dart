@@ -13,10 +13,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class mail extends StatefulWidget {
   @override
   Mail createState() => Mail();
+
 }
+//
 
 class Mail extends State<mail> {
   final db = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +28,7 @@ class Mail extends State<mail> {
         centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: db.collection('Order').where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email).snapshots(),
+        stream: db.collection('Order').where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email).limit(10).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(

@@ -6,7 +6,7 @@ import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
+//TODO agalar buraya sipariş tutarı ve çıkartma eklenecek
 
 class chart extends StatefulWidget {
   @override
@@ -67,30 +67,37 @@ class Chart extends State<chart> {
                   AppButton(
                     text: 'Give Order',
                     onPressed: () async{
+                      var us = await firestoreInstance
+                          .collection("User")
+                          .where("email", isEqualTo: FirebaseAuth.instance.currentUser.email)
+                          .get();
+                      var Address = "";
+                      Address = us.docs.first.get("address");
+                      print(us.docs.first.get("address"));
                       var result = await firestoreInstance
                           .collection("Chart")
                           .where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email)
                           .get();
                       var arr = [];
+                      var total = 0;
+                      var EmailTeyze = "";
+
                       result.docs.forEach((res) {
-                        var b = res.data().values.toList();
-                        for(var i in b){
-                          if(i.toString().contains("@")){
-                            print(i);
-                          }
-                          else{
-                            arr.add(i);
-                          }
-                        }
+                          total += res.get("Cost");
+                          arr.add(res.get("Foods"));
+                          EmailTeyze = res.get("Email_Teyze");
+
+
                       });
                       print(arr);
                       firestoreInstance.collection("Order").add(
                           {
-                            "Email_Teyze" : "kısırlarınefendisi@gmail.com",
+                            "Email_Teyze" : EmailTeyze,
                             "Email_Client": FirebaseAuth.instance.currentUser.email,
                             "Foods" : arr,
-                            "Price" : "107",
-                            "Adress" : "Sabanci Universitesi B7",
+                            "Price" : total,
+                            "Adress" : Address,
+                            "Date" : FieldValue.serverTimestamp(),
 
                           }
                           ).then((value){

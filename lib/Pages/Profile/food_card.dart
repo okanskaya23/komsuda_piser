@@ -15,7 +15,7 @@ class FoodCard extends StatelessWidget {
 
 
 
-
+// Todo Buraya farklı kullanıcılarda sipariş vermeme özelliği eklememiz lazım
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -32,6 +32,7 @@ class FoodCard extends StatelessWidget {
                       "Email_Teyze" : food.cook_mail,
                       "Email_Client": FirebaseAuth.instance.currentUser.email,
                       "Foods" : food.name,
+                      "Cost" : food.price,
                     }
                 ).then((value){
                   print(value.id);

@@ -14,7 +14,7 @@ class signup extends StatefulWidget {
   @override
   Signup createState() => Signup();
 }
-
+// TODO buraya boş olursa gitmemesini eklemek lazım
 class Signup extends State<signup> {
   final firestoreInstance = FirebaseFirestore.instance;
   final formKey = GlobalKey<FormState>();
@@ -25,6 +25,7 @@ class Signup extends State<signup> {
   var zipCodeController = TextEditingController();
   var ppCodeController = TextEditingController();
   var deliveryController = TextEditingController();
+  var AddressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +79,14 @@ class Signup extends State<signup> {
                   ),
                   SizedBox(height: context.height*0.01,),
                   AppTextField(
+                    text: 'Address',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    icon: Icon(Icons.add_location_alt_sharp),
+                    controller: AddressController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
+                  AppTextField(
                     text: 'Profile Picture URL',
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
@@ -124,6 +133,7 @@ class Signup extends State<signup> {
                             "zipCode": zipCodeController.text,
                             "score": "10",
                             "delivery": deliveryController.text,
+                            "address" : AddressController.text,
 
                           }).then((value){
                         print(value.id);

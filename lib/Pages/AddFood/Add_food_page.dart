@@ -24,6 +24,7 @@ class Settings extends State<settings> {
   var passwordCheckController = TextEditingController();
   var ppURLController = TextEditingController();
   var DevlivryTypeController = TextEditingController();
+  var numberOfServesController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +71,6 @@ class Settings extends State<settings> {
                     text: 'Yemek Fiyatı',
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
-                    obscureText: true,
                     controller: passwordController,
                   ),
                   SizedBox(height: context.height*0.01,),
@@ -79,16 +79,21 @@ class Settings extends State<settings> {
                     text: 'Yemek Teslimat sistemi',
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
-                    obscureText: true,
                     controller: DevlivryTypeController,
                   ),
                   SizedBox(height: context.height*0.01,),
                   AppTextField(
-                    text: 'Yemek Teslimat sistemi',
+                    text: 'Yemek Resmi',
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
-                    obscureText: true,
                     controller: ppURLController,
+                  ),
+                  SizedBox(height: context.height*0.01,),
+                  AppTextField(
+                    text: 'Kaç adet yemek var',
+                    readOnly: false,
+                    height: MediaQuery. of(context). size. height/18,
+                    controller: numberOfServesController,
                   ),
                   SizedBox(height: context.height*0.01,),
 
@@ -100,9 +105,10 @@ class Settings extends State<settings> {
                           {
                             "name" : usernameController.text,
                             "email" : FirebaseAuth.instance.currentUser.email,
-                            "Price": passwordController.text,
+                            "Price": double.parse(passwordController.text),
                             "DelivryType": DevlivryTypeController.text,
                             "Image" : ppURLController.text,
+                            "Remaining": int.parse(numberOfServesController.text),
 
                           }).then((value){
                         print(value.id);
