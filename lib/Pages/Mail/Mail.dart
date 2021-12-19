@@ -10,6 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 //TODO burda orderlamayı deneyince bi infinite loop oluyor onabi ara bakalım birde burda tab yapaısı yapsak tıklayınca senin verdiğin siparişler ve sana gelen siparaişler arsında geçiş yapalım
+var TC = "Email_Teyze";
 
 class mail extends StatefulWidget {
   @override
@@ -18,7 +19,6 @@ class mail extends StatefulWidget {
 }
 
 class Mail extends State<mail> {
-  var TC = "Email_Teyze";
   void buttonPressed(){
       if(TC == "Email_Client"){
         TC = "Email_Teyze";
@@ -26,6 +26,12 @@ class Mail extends State<mail> {
       else{
         TC = "Email_Client";
       }
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) => super.widget
+          ));
+
 
   }
   final db = FirebaseFirestore.instance;
