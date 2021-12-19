@@ -37,6 +37,7 @@ class FoodCard extends StatelessWidget {
                 if(result.size > 1){
                   result.docs.forEach((res) {
                     EmailTeyze = res.get("Email_Teyze");
+                    print("aaaaaaaaaaaa");
                     print(EmailTeyze);
                     if (EmailTeyze != firstTeyze) {
                       flag = false;
