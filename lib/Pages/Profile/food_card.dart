@@ -15,7 +15,6 @@ class FoodCard extends StatelessWidget {
 
 
 
-// Todo Buraya farklı kullanıcılarda sipariş vermeme özelliği eklememiz lazım
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -26,17 +25,34 @@ class FoodCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             InkWell(
-              onTap: () {
-                firestoreInstance.collection("Chart").add(
-                    {
-                      "Email_Teyze" : food.cook_mail,
-                      "Email_Client": FirebaseAuth.instance.currentUser.email,
-                      "Foods" : food.name,
-                      "Cost" : food.price,
+              onTap: () async{
+                var flag = true;
+                var result = await firestoreInstance
+                    .collection("Chart")
+                    .where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email)
+                    .get();
+                var EmailTeyze = "";
+                var firstTeyze = food.cook_mail;
+
+                if(result.size > 1){
+                  result.docs.forEach((res) {
+                    EmailTeyze = res.get("Email_Teyze");
+                    print(EmailTeyze);
+                    if (EmailTeyze != firstTeyze) {
+                      flag = false;
                     }
-                ).then((value){
-                  print(value.id);
-                });
+                  });
+                }
+                if(flag){
+                  firestoreInstance.collection("Chart").add({
+                    "Email_Teyze": food.cook_mail,
+                    "Email_Client": FirebaseAuth.instance.currentUser.email,
+                    "Foods": food.name,
+                    "Cost": food.price,
+                  }).then((value) {
+                    print(value.id);
+                  });
+                }
               },
               child:
               Row(
