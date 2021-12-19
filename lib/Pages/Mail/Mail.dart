@@ -82,6 +82,7 @@ class Mail extends State<mail> {
                               Icon(Icons.star, color: Colors.amber,),
                           onRatingUpdate: (rating) =>
                               setState(() {
+                                buttonName = "Given Orders";
                                 this.rating = rating;
                                 //TODO: BACKEND KISMI BURAYA
                               }),
