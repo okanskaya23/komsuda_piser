@@ -19,12 +19,11 @@ class _BannerSectionState extends State<BannerSection> {
   final firestoreInstance = FirebaseFirestore.instance;
 
   TextEditingController _editingController = new TextEditingController();
-  final duplicatedItems = ["armut", "elma", "3", "4"];
+  final duplicatedItems = ["armut", "elma", "arm", "armt", "barbar",];
   var items = [];
 
   @override
   void initState() {
-    items.addAll(duplicatedItems);
     super.initState();
   }
 
@@ -60,87 +59,17 @@ class _BannerSectionState extends State<BannerSection> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              /*Text(
-                "Look For A Meal",
-                style: TextStyle(fontSize: 56, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 10,
-              ),
               Text(
-                "Live another day",
-                style: TextStyle(
-                  fontSize: 56,
-                ),
+                "Acıktın mı?",
+                style: TextStyle(fontSize: 46, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "LOREM IPSUM",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black54,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),*/
-              Container(
-                padding: EdgeInsets.only(
-                  left: 10,
-                  right: 10,
-                ),
-                height: 50,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey.withOpacity(0.3))),
-                child: Column(
-                  children: <Widget>[
-                    TextField(
-                        controller: _editingController,
-                        decoration: InputDecoration(
-                          prefixIcon:
-                              Icon(Icons.search, color: Appcolors.secondary),
-                          hintText: "Search your favourite teyze",
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                        cursorColor: Colors.yellow,
-                        onChanged: (value) {
-                          filterSearchResults(value);
-                        }),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  if (_editingController == "") {
-                    return Text("");
-                  } else
-                    return ListTile(
-                      title: Text("Listedeki ${items[index]}"),
-                      onTap: () {},
-                    );
-                },
-              ),
-
-              /*Row(
+              SizedBox(height: 20,),
+              Row(
                 children: <Widget>[
                   Expanded(
                     child: MaterialButton(
                       color: Appcolors.secondary,
-                      height: 55,
+                      height: 45,
                       onPressed: () {
                         firestoreInstance.collection("User").get().then((querySnapshot) {
                           querySnapshot.docs.forEach((result) {
@@ -149,17 +78,17 @@ class _BannerSectionState extends State<BannerSection> {
                         });
                       },
                       child: Text(
-                        "Delivery",
+                        "Teyze Ara",
                         style: TextStyle(color: Appcolors.primary),
                       ),
                     ),
-                  ),
+                 ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
                     ),
                     child: Text(
-                      "or",
+                      "veya",
                       style: TextStyle(
                         color: Appcolors.primary,
                         fontSize: 16,
@@ -169,7 +98,7 @@ class _BannerSectionState extends State<BannerSection> {
                   ),
                   Expanded(
                     child: Container(
-                      height: 50,
+                      height: 45,
                       child: OutlinedButton(
                         onPressed: () async{
                           var us = await firestoreInstance
@@ -211,22 +140,20 @@ class _BannerSectionState extends State<BannerSection> {
                           result.docs.forEach((res) {
                             firestoreInstance.collection("Chart").doc(res.id).delete();
                           });
-                          */ /*setState(() {
+                           setState(() {
 
-                          });*/ /*
-                        },
+                          });
 
-    */ /*{
-                          var result = await firestoreInstance
+                          var result1 = await firestoreInstance
                               .collection("User")
                               .where("zipCode", isEqualTo: "34000")
                               .get();
-                          result.docs.forEach((res) {
+                          result1.docs.forEach((res) {
                             print(res.data());
                           });
-                        },*/ /*
+                        },
                         child: Text(
-                          "Pick Up",
+                          "Yemek Ara",
                           style: TextStyle(
                             color: Appcolors.primary,
                             fontSize: 16,
@@ -241,7 +168,56 @@ class _BannerSectionState extends State<BannerSection> {
                     ),
                   ),
                 ],
-              ),*/
+              ),
+              SizedBox(height: 10,),
+              Container(
+                padding: EdgeInsets.only(
+                  left: 10,
+                  right: 10,
+                ),
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey.withOpacity(0.3))),
+                child: Column(
+                  children: <Widget>[
+                    TextField(
+                        controller: _editingController,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.search, color: Appcolors.secondary),
+                          hintText: "Hakuna Matata...",
+                          focusedBorder: UnderlineInputBorder(borderSide: BorderSide.none,),
+                          enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none,),
+                        ),
+                        cursorColor: Colors.yellow,
+                        onChanged: (value) {
+                          filterSearchResults(value);
+                        }),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SingleChildScrollView(
+                child: Container(
+                  height: MediaQuery. of(context). size. height/2.7,
+                  width: MediaQuery. of(context). size. width,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text("Listedeki ${items[index]}"),
+                          onTap: () {},
+                        );
+                    },
+                  ),
+                ),
+              ),
+
+
             ],
           ),
         ),
