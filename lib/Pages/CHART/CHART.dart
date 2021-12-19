@@ -56,7 +56,15 @@ class Chart extends State<chart> {
                                 child: ListTile(
                                   leading: Icon(Icons.add_shopping_cart_rounded),
                                   title: Text(doc.get("Foods").toString()),
-                                  onTap: () {},
+                                  onTap: () async{
+                                    var result = await firestoreInstance
+                                        .collection("Chart")
+                                        .where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email)
+                                        .where("Foods", isEqualTo: doc.get("Foods").toString())
+                                        .get();
+                                      firestoreInstance.collection("Chart").doc(result.docs.first.id).delete();
+
+                                  },
                                   subtitle: Text(doc.get("Cost").toString()),
                                 ),
                               );
