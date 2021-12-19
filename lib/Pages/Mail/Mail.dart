@@ -9,13 +9,13 @@ import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//TODO burda orderlamayı deneyince bi infinite loop oluyor onabi ara bakalım birde burda tab yapaısı yapsak tıklayınca senin verdiğin siparişler ve sana gelen siparaişler arsında geçiş yapalım
 
 class mail extends StatefulWidget {
   @override
   Mail createState() => Mail();
 
 }
-//TODO burda orderlamayı deneyince bi infinite loop oluyor onabi ara bakalım birde burda tab yapaısı yapsak tıklayınca senin verdiğin siparişler ve sana gelen siparaişler arsında geçiş yapalım 
 
 class Mail extends State<mail> {
   final db = FirebaseFirestore.instance;
