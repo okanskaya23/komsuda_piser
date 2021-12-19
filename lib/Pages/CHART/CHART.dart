@@ -56,7 +56,7 @@ class Chart extends State<chart> {
                                 child: ListTile(
                                   leading: Icon(Icons.add_shopping_cart_rounded),
                                   title: Text(doc.get("Foods").toString()),
-                                  onTap: ()  => removeFromChart(),
+                                  onTap: () {},
                                   subtitle: Text(doc.get("Cost").toString()),
                                 ),
                               );
