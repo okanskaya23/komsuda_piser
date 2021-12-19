@@ -97,10 +97,6 @@ class OwnProfilePage extends State<ownProfilePage> {
                     _user.delivery = doc.get('delivery');
                     _user.profilePic = NetworkImage("${doc.get('pp')}");
                   }).toList();
-                  print("\n\n\n\n\n\nDATA BURDA\n\n\n\n\n");
-                  print(_user.name);
-                  print("\n\n\n\n\nDATA BITTI\n\n\n\n\n\n");
-
                   return Container(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
