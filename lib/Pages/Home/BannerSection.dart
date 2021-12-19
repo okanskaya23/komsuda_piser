@@ -113,6 +113,51 @@ class BannerSection extends StatelessWidget {
                       height: 50,
                       child: OutlinedButton(
                         onPressed: () async{
+                          var us = await firestoreInstance
+                              .collection("User")
+                              .where("email", isEqualTo: FirebaseAuth.instance.currentUser.email)
+                              .get();
+                          var Address = "";
+                          Address = us.docs.first.get("address");
+                          print(us.docs.first.get("address"));
+                          var result = await firestoreInstance
+                              .collection("Chart")
+                              .where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email)
+                              .get();
+                          var arr = [];
+                          var total = 0;
+                          var EmailTeyze = "";
+
+                          result.docs.forEach((res) {
+                            total += res.get("Cost");
+                            arr.add(res.get("Foods"));
+                            EmailTeyze = res.get("Email_Teyze");
+
+
+                          });
+                          print(arr);
+                          firestoreInstance.collection("Order").add(
+                              {
+                                "Email_Teyze" : EmailTeyze,
+                                "Email_Client": FirebaseAuth.instance.currentUser.email,
+                                "Foods" : arr,
+                                "Price" : total,
+                                "Adress" : Address,
+                                "Date" : FieldValue.serverTimestamp(),
+
+                              }
+                          ).then((value){
+                            print(value.id);
+                          });
+                          result.docs.forEach((res) {
+                            firestoreInstance.collection("Chart").doc(res.id).delete();
+                          });
+                          /*setState(() {
+
+                          });*/
+                        },
+
+    /*{
                           var result = await firestoreInstance
                               .collection("User")
                               .where("zipCode", isEqualTo: "34000")
@@ -120,7 +165,7 @@ class BannerSection extends StatelessWidget {
                           result.docs.forEach((res) {
                             print(res.data());
                           });
-                        },
+                        },*/
                         child: Text(
                           "Pick Up",
                           style: TextStyle(
