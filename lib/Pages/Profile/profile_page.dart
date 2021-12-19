@@ -64,6 +64,10 @@ class _ProfileFirstState extends State<ProfilePage> {
 
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Appcolors.primary,
+        toolbarHeight: MediaQuery.of(context).size.height*0.06,
+      ),
       body: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -84,7 +88,7 @@ class _ProfileFirstState extends State<ProfilePage> {
                       ),
                       child: Container(
                         width: width * 0.33,
-                        height:MediaQuery.of(context).size.height,
+                        height:MediaQuery.of(context).size.height*0.94,
                         child: Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
