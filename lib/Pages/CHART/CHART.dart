@@ -44,7 +44,7 @@ class Chart extends State<chart> {
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return Center(
-                            child: CircularProgressIndicator(),
+                            child: Text("Empty Chart"),
                           );
                         } else
                           return ListView(

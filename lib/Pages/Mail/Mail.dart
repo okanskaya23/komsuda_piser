@@ -15,7 +15,7 @@ class mail extends StatefulWidget {
   Mail createState() => Mail();
 
 }
-//
+//TODO burda orderlamayı deneyince bi infinite loop oluyor onabi ara bakalım birde burda tab yapaısı yapsak tıklayınca senin verdiğin siparişler ve sana gelen siparaişler arsında geçiş yapalım 
 
 class Mail extends State<mail> {
   final db = FirebaseFirestore.instance;
