@@ -23,7 +23,6 @@ class Settings extends State<settings> {
   var passwordController = TextEditingController();
   var passwordCheckController = TextEditingController();
   var ppURLController = TextEditingController();
-  var DevlivryTypeController = TextEditingController();
   var numberOfServesController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -74,14 +73,6 @@ class Settings extends State<settings> {
                     controller: passwordController,
                   ),
                   SizedBox(height: context.height*0.01,),
-
-                  AppTextField(
-                    text: 'Yemek Teslimat sistemi',
-                    readOnly: false,
-                    height: MediaQuery. of(context). size. height/18,
-                    controller: DevlivryTypeController,
-                  ),
-                  SizedBox(height: context.height*0.01,),
                   AppTextField(
                     text: 'Yemek Resmi',
                     readOnly: false,
@@ -103,12 +94,12 @@ class Settings extends State<settings> {
                     onPressed: () async{
                       firestoreInstance.collection("Food").add(
                           {
-                            "name" : usernameController.text,
-                            "email" : FirebaseAuth.instance.currentUser.email,
+                            "Name" : usernameController.text,
+                            "Cook" : FirebaseAuth.instance.currentUser.email,
                             "Price": double.parse(passwordController.text),
-                            "DelivryType": DevlivryTypeController.text,
-                            "Image" : ppURLController.text,
+                            "Picture" : ppURLController.text,
                             "Remaining": int.parse(numberOfServesController.text),
+
 
                           }).then((value){
                         print(value.id);

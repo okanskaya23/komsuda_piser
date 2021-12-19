@@ -18,17 +18,32 @@ class mail extends StatefulWidget {
 }
 
 class Mail extends State<mail> {
+  var TC = "Email_Teyze";
+  void buttonPressed(){
+      if(TC == "Email_Client"){
+        TC = "Email_Teyze";
+      }
+      else{
+        TC = "Email_Client";
+      }
+
+  }
   final db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Oreders"),
-        centerTitle: true,
+        title: AppButton(
+
+          text: "okan kasar",
+          onPressed: buttonPressed,
+        ),
+        centerTitle: true
+        ,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: db.collection('Order').where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email).limit(10).snapshots(),
+        stream: db.collection('Order').where(TC, isEqualTo: FirebaseAuth.instance.currentUser.email).limit(10).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
