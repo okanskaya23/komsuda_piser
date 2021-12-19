@@ -49,27 +49,35 @@ class Chart extends State<chart> {
                           return Center(
                             child: Text("Empty Chart"),
                           );
-                        } else
+                        } else {
                           return ListView(
                             children: snapshot.data.docs.map((doc) {
                               return Card(
                                 child: ListTile(
-                                  leading: Icon(Icons.add_shopping_cart_rounded),
+                                  leading:
+                                      Icon(Icons.add_shopping_cart_rounded),
                                   title: Text(doc.get("Foods").toString()),
-                                  onTap: () async{
+                                  onTap: () async {
                                     var result = await firestoreInstance
                                         .collection("Chart")
-                                        .where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email)
-                                        .where("Foods", isEqualTo: doc.get("Foods").toString())
+                                        .where("Email_Client",
+                                            isEqualTo: FirebaseAuth
+                                                .instance.currentUser.email)
+                                        .where("Foods",
+                                            isEqualTo:
+                                                doc.get("Foods").toString())
                                         .get();
-                                      firestoreInstance.collection("Chart").doc(result.docs.first.id).delete();
-
+                                    firestoreInstance
+                                        .collection("Chart")
+                                        .doc(result.docs.first.id)
+                                        .delete();
                                   },
                                   subtitle: Text(doc.get("Cost").toString()),
                                 ),
                               );
                             }).toList(),
                           );
+                        }
                       },
                     ),
                     height: MediaQuery. of(context). size. height/3,

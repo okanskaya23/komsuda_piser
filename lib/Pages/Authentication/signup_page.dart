@@ -91,7 +91,7 @@ class Signup extends State<signup> {
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
                     icon: Icon(Icons.account_circle_rounded),
-                    controller: zipCodeController,
+                    controller: ppCodeController,
                   ),
                   SizedBox(height: context.height*0.01,),
                   AppTextField(
@@ -131,7 +131,7 @@ class Signup extends State<signup> {
                             "email" : emailController.text,
                             "pp": ppCodeController.text,
                             "zipCode": zipCodeController.text,
-                            "score": "10",
+                            "score": "5",
                             "delivery": deliveryController.text,
                             "address" : AddressController.text,
 
