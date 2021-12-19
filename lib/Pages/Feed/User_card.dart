@@ -56,7 +56,7 @@ class UserCard extends StatelessWidget {
                     builder: (context) => ProfilePage(user: user),
                   ),
                 );
-                //TODO: BURADA TIKLANILAN TEYZENIN PROFILINE GIDILMESI GEREK
+
               },
               child:
               Row(
