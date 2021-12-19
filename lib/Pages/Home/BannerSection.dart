@@ -61,7 +61,7 @@ class BannerSection extends StatelessWidget {
                         color: Colors.grey.withOpacity(0.3))),
                 child: TextFormField(
                   decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.adjust_rounded,
+                    suffixIcon: Icon(Icons.search,
                         color: Appcolors.secondary),
                     hintText: "Search your favourite teyze",
                     focusedBorder: UnderlineInputBorder(
@@ -148,7 +148,9 @@ class BannerSection extends StatelessWidget {
           flex: 2,
           child: Column(
             children: <Widget>[
-              Image.asset("assets/images/yemek2.png"),
+              Image.asset("assets/images/yemek2.png",
+              height: MediaQuery.of(context).size.height*0.65,
+              ),
             ],
           ),
         ),
