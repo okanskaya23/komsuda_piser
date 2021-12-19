@@ -41,6 +41,7 @@ class FoodCard extends StatelessWidget {
                     print(EmailTeyze);
                     if (EmailTeyze != firstTeyze) {
                       flag = false;
+                      //TODO hata meesajı lazım
                     }
                   });
                 }
