@@ -99,8 +99,6 @@ class Settings extends State<settings> {
                             "Price": double.parse(passwordController.text),
                             "Picture" : ppURLController.text,
                             "Remaining": int.parse(numberOfServesController.text),
-
-
                           }).then((value){
                         print(value.id);
                       });
