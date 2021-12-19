@@ -128,6 +128,13 @@ class Chart extends State<chart> {
                       result.docs.forEach((res) {
                         firestoreInstance.collection("Chart").doc(res.id).delete();
                       });
+                      var result12 = await firestoreInstance
+                          .collection("User")
+                          .where("email", isEqualTo: EmailTeyze)
+                          .get();
+                      var current = result12.docs.first.id;
+
+                      await FirebaseFirestore.instance.collection("User").doc(current).update({"NumberOfOrder": FieldValue.increment(1)});
                       setState(() {
 
                       });

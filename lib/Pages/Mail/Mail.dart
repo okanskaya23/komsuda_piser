@@ -99,9 +99,8 @@ class Mail extends State<mail> {
                               .where("email", isEqualTo: email)
                               .get();
                           var current = result.docs.first.id;
-                          print(current);
-                          print(rating);
                           await FirebaseFirestore.instance.collection("User").doc(current).update({"score": FieldValue.increment(rating)});
+                          FirebaseFirestore.instance.collection("Order").doc(doc.id).delete();
 
 
 
