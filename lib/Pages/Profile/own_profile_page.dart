@@ -44,14 +44,14 @@ class OwnProfilePage extends State<ownProfilePage> {
     double width = MediaQuery.of(context).size.width;
 
 
-    String delivery_option(){
-      if(_user.delivery)
+    String delivery_option(bool b){
+      if(b)
         return "var";
       return "yok";
     }
 
-    Color delivery_color(){
-      if(_user.delivery)
+    Color delivery_color(bool b){
+      if(b)
         return Colors.greenAccent;
       return Colors.redAccent;
     }
@@ -77,116 +77,137 @@ class OwnProfilePage extends State<ownProfilePage> {
         children: <Widget>[
           Expanded(
             flex: 0,
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Appcolors.secondary,
-                            Appcolors.third,
-                          ]
-                      )
-                  ),
-                  child: Container(
-                    width: width * 0.33,
-                    height:MediaQuery.of(context).size.height *0.8,
-                    child: Center(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CircleAvatar(
-                            backgroundImage: _user.profilePic,
-                            radius: 50.0,
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Text(
-                            "${_user.name}",
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              color: Colors.white,
+            child: StreamBuilder<QuerySnapshot>(
+              stream: db.collection('User').where("email", isEqualTo:FirebaseAuth.instance.currentUser.email).snapshots(),
+              // ignore: missing_return
+              builder: (context, snapshot) {
+
+                if (snapshot.hasError) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                else{
+                  snapshot.data.docs.map((doc){
+                    _user.name = doc.get('name');
+                    _user.email = doc.get('email');
+                    _user.username = doc.get('name');
+                    _user.points = doc.get('score');
+                    _user.delivery = doc.get('delivery');
+                    _user.profilePic = NetworkImage("${doc.get('pp')}");
+                  }).toList();
+                  print("\n\n\n\n\n\nDATA BURDA\n\n\n\n\n");
+                  print(_user.name);
+                  print("\n\n\n\n\nDATA BITTI\n\n\n\n\n\n");
+
+                  return Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Appcolors.secondary,
+                                Appcolors.third,
+                              ]
+                          )
+                      ),
+                      width: width * 0.33,
+                      height:MediaQuery.of(context).size.height *0.8,
+                      child: Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundImage: _user.profilePic,
+                              radius: 50.0,
                             ),
-                          ),
-                          SizedBox(
-                            height: 10.0,
-                          ),
-                          Card(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 5.0),
-                            clipBehavior: Clip.antiAlias,
-                            color: Colors.white,
-                            elevation: 5.0,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 22.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                          "Teslimat",
-                                          style: TextStyle(
-                                            color: Appcolors.third,
-                                            fontSize: 22.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 5.0,
-                                        ),
-                                        Text(
-                                          "${delivery_option()}",
-                                          style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: delivery_color(),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                          "Puan",
-                                          style: TextStyle(
-                                            color: Appcolors.third,
-                                            fontSize: 22.0,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 5.0,
-                                        ),
-                                        Text(
-                                          "${_user.points}",
-                                          style: TextStyle(
-                                            fontSize: 20.0,
-                                            color: score_color(),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              "${_user.name}",
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                color: Colors.white,
                               ),
                             ),
-                          )
-                        ],
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Card(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 5.0),
+                              clipBehavior: Clip.antiAlias,
+                              color: Colors.white,
+                              elevation: 5.0,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 22.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "Teslimat",
+                                            style: TextStyle(
+                                              color: Appcolors.third,
+                                              fontSize: 22.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Text(
+                                            "${delivery_option(_user.delivery)}",
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: delivery_color(_user.delivery),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Text(
+                                            "Puan",
+                                            style: TextStyle(
+                                              color: Appcolors.third,
+                                              fontSize: 22.0,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Text(
+                                            "${_user.points}",
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: score_color(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ],
+                  );
+                }
+                return CircularProgressIndicator();
+              },
             ),
           ),
-
 
           Expanded(
             flex: 2,
@@ -199,7 +220,7 @@ class OwnProfilePage extends State<ownProfilePage> {
                   );
                 } else{
                   return ListView(
-                    children: snapshot.data.docs.map((doc) {
+                    children: snapshot.data.docs.map((doc){
                       return FoodCard(
                         food: FoodClass(
                           cook_mail: doc.get('Cook'),
@@ -219,7 +240,6 @@ class OwnProfilePage extends State<ownProfilePage> {
           ),
         ],
       ),
-
     );
   }
 }
