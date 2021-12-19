@@ -4,28 +4,65 @@ import 'package:komsuda_piser_local/Utils/app_textStyles.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-class BannerSection extends StatelessWidget {
+class BannerSection extends StatefulWidget {
   const BannerSection({
     Key key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final firestoreInstance = FirebaseFirestore.instance;
+  _BannerSectionState createState() => _BannerSectionState();
+}
 
+class _BannerSectionState extends State<BannerSection> {
+  final firestoreInstance = FirebaseFirestore.instance;
+
+  TextEditingController _editingController = new TextEditingController();
+  final duplicatedItems = ["armut", "elma", "3", "4"];
+  var items = [];
+
+  @override
+  void initState() {
+    items.addAll(duplicatedItems);
+    super.initState();
+  }
+
+  void filterSearchResults(String query) {
+    List<String> dummySearchList = [];
+    dummySearchList.addAll(duplicatedItems);
+    if (query.isNotEmpty) {
+      List<String> dummyListData = [];
+      dummySearchList.forEach((item) {
+        if (item.contains(query)) {
+          dummyListData.add(item);
+        }
+      });
+      setState(() {
+        items.clear();
+        items.addAll(dummyListData);
+      });
+      return;
+    } else {
+      setState(() {
+        items.clear();
+        items.addAll(duplicatedItems);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-
         Expanded(
           flex: 3,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
+              /*Text(
                 "Look For A Meal",
-                style: TextStyle(
-                    fontSize: 56,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 56, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 10,
@@ -48,7 +85,7 @@ class BannerSection extends StatelessWidget {
               ),
               SizedBox(
                 height: 20,
-              ),
+              ),*/
               Container(
                 padding: EdgeInsets.only(
                   left: 10,
@@ -57,26 +94,48 @@ class BannerSection extends StatelessWidget {
                 height: 50,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(
-                        color: Colors.grey.withOpacity(0.3))),
-                child: TextFormField(
-                  decoration: InputDecoration(
-                    suffixIcon: Icon(Icons.search,
-                        color: Appcolors.secondary),
-                    hintText: "Search your favourite teyze",
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+                    border: Border.all(color: Colors.grey.withOpacity(0.3))),
+                child: Column(
+                  children: <Widget>[
+                    TextField(
+                        controller: _editingController,
+                        decoration: InputDecoration(
+                          prefixIcon:
+                              Icon(Icons.search, color: Appcolors.secondary),
+                          hintText: "Search your favourite teyze",
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                        cursorColor: Colors.yellow,
+                        onChanged: (value) {
+                          filterSearchResults(value);
+                        }),
+                  ],
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
-              Row(
+              ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  if (_editingController == "") {
+                    return Text("");
+                  } else
+                    return ListTile(
+                      title: Text("Listedeki ${items[index]}"),
+                      onTap: () {},
+                    );
+                },
+              ),
+
+              /*Row(
                 children: <Widget>[
                   Expanded(
                     child: MaterialButton(
@@ -152,12 +211,12 @@ class BannerSection extends StatelessWidget {
                           result.docs.forEach((res) {
                             firestoreInstance.collection("Chart").doc(res.id).delete();
                           });
-                          /*setState(() {
+                          */ /*setState(() {
 
-                          });*/
+                          });*/ /*
                         },
 
-    /*{
+    */ /*{
                           var result = await firestoreInstance
                               .collection("User")
                               .where("zipCode", isEqualTo: "34000")
@@ -165,7 +224,7 @@ class BannerSection extends StatelessWidget {
                           result.docs.forEach((res) {
                             print(res.data());
                           });
-                        },*/
+                        },*/ /*
                         child: Text(
                           "Pick Up",
                           style: TextStyle(
@@ -182,7 +241,7 @@ class BannerSection extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
+              ),*/
             ],
           ),
         ),
@@ -193,8 +252,9 @@ class BannerSection extends StatelessWidget {
           flex: 2,
           child: Column(
             children: <Widget>[
-              Image.asset("assets/images/yemek2.png",
-              height: MediaQuery.of(context).size.height*0.65,
+              Image.asset(
+                "assets/images/yemek2.png",
+                height: MediaQuery.of(context).size.height * 0.65,
               ),
             ],
           ),

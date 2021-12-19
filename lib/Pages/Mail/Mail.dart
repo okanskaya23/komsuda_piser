@@ -48,8 +48,7 @@ class Mail extends State<mail> {
           text: buttonName,
           onPressed: buttonPressed,
         ),
-        centerTitle: true
-        ,
+        centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: db.collection('Order').where(
