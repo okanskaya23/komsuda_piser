@@ -40,7 +40,7 @@ class NavigatorPage extends State<navigatorPage>
       content: HeaderContainer(),
     ),
     ContentView(
-      tab: CustomTab(title: 'Yakındakiler',icon: Icons.feed),
+      tab: CustomTab(title: 'Yakındakiler',icon: Icons.dynamic_feed_rounded),
       content: feed(),
     ),
     ContentView(

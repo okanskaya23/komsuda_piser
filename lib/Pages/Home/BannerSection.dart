@@ -17,10 +17,17 @@ class BannerSection extends StatefulWidget {
 
 class _BannerSectionState extends State<BannerSection> {
   final firestoreInstance = FirebaseFirestore.instance;
-
+  bool button_check = true;
   TextEditingController _editingController = new TextEditingController();
   final duplicatedItems = ["armut", "elma", "arm", "armt", "barbar",];
   var items = [];
+
+  List<String> arr_t = [];
+  List<String> arr_f = [];
+
+
+  var total = 0;
+  var EmailTeyze = "";
 
   @override
   void initState() {
@@ -29,7 +36,7 @@ class _BannerSectionState extends State<BannerSection> {
 
   void filterSearchResults(String query) {
     List<String> dummySearchList = [];
-    dummySearchList.addAll(duplicatedItems);
+    dummySearchList.addAll(button_check ? arr_t : arr_f);
     if (query.isNotEmpty) {
       List<String> dummyListData = [];
       dummySearchList.forEach((item) {
@@ -45,7 +52,7 @@ class _BannerSectionState extends State<BannerSection> {
     } else {
       setState(() {
         items.clear();
-        items.addAll(duplicatedItems);
+        items.addAll(button_check ? arr_t : arr_f);
       });
     }
   }
@@ -70,12 +77,16 @@ class _BannerSectionState extends State<BannerSection> {
                     child: MaterialButton(
                       color: Appcolors.third,
                       height: 45,
-                      onPressed: () {
-                        firestoreInstance.collection("User").get().then((querySnapshot) {
-                          querySnapshot.docs.forEach((result) {
-                            print(result.data());
+                      onPressed: () async{
+                          button_check = true;
+                          var result = await firestoreInstance
+                              .collection("User")
+                              .get();
+
+                          result.docs.forEach((res) {
+                          arr_t.add(res.get("name"));
                           });
-                        });
+                          print(arr_t);
                       },
                       child: Text(
                         "Teyze Ara",
@@ -105,56 +116,16 @@ class _BannerSectionState extends State<BannerSection> {
                       height: 45,
                       child: OutlinedButton(
                         onPressed: () async{
-                          var us = await firestoreInstance
-                              .collection("User")
-                              .where("email", isEqualTo: FirebaseAuth.instance.currentUser.email)
-                              .get();
-                          var Address = "";
-                          Address = us.docs.first.get("address");
-                          print(us.docs.first.get("address"));
+                          button_check = false;
                           var result = await firestoreInstance
-                              .collection("Chart")
-                              .where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email)
+                              .collection("Food")
                               .get();
-                          var arr = [];
-                          var total = 0;
-                          var EmailTeyze = "";
 
                           result.docs.forEach((res) {
-                            total += res.get("Cost");
-                            arr.add(res.get("Foods"));
-                            EmailTeyze = res.get("Email_Teyze");
-
+                            arr_f.add(res.get("Name"));
 
                           });
-                          print(arr);
-                          firestoreInstance.collection("Order").add(
-                              {
-                                "Email_Teyze" : EmailTeyze,
-                                "Email_Client": FirebaseAuth.instance.currentUser.email,
-                                "Foods" : arr,
-                                "Price" : total,
-                                "Adress" : Address,
-                                "Date" : FieldValue.serverTimestamp(),
-
-                              }
-                          ).then((value){
-                            print(value.id);
-                          });
-                          result.docs.forEach((res) {
-                            firestoreInstance.collection("Chart").doc(res.id).delete();
-                          });
-                           setState(() {
-
-                          });
-
-                          var result1 = await firestoreInstance
-                              .collection("User")
-                              .where("zipCode", isEqualTo: "34000")
-                              .get();
-                          result1.docs.forEach((res) {
-                            print(res.data());
-                          });
+                          print(arr_f);
                         },
                         child: Text(
                           "Yemek Ara",
@@ -194,7 +165,7 @@ class _BannerSectionState extends State<BannerSection> {
                           enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none,),
                         ),
                         cursorColor: Colors.yellow,
-                        onChanged: (value) {
+                        onChanged: (value) async{
                           filterSearchResults(value);
                         }),
                   ],
@@ -212,16 +183,29 @@ class _BannerSectionState extends State<BannerSection> {
                     shrinkWrap: true,
                     itemCount: items.length,
                     itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text("Listedeki ${items[index]}"),
-                          onTap: () {},
-                        );
-                    },
+                      if(button_check == true) {
+                      return ListTile(
+                      title: Text("${arr_t[index]}"),
+                      onTap: () async{
+                      //TODO: BURAYA TIKLAYINCA PROFILE PAGE'E GIDECEK
+                      },
+                      );
+                      }
+                      else if (button_check == false){
+                      return ListTile(
+                      title: Text("${arr_f[index]}"),
+                      onTap: () async{
+                      //TODO: BURAYA TIKLAYINCA PROFILE PAGE'E GIDECEK
+
+                      },
+                      );
+                      }
+                      else return Text("");
+                      },
+                      ),
+
                   ),
                 ),
-              ),
-
-
             ],
           ),
         ),
