@@ -185,7 +185,7 @@ class OwnProfilePage extends State<ownProfilePage> {
                                             height: 5.0,
                                           ),
                                           Text(
-                                            "${_user.points / _user.ordernum}",
+                                            "${(_user.points / _user.ordernum).toStringAsFixed(2)}",
                                             style: TextStyle(
                                               fontSize: 20.0,
                                               color: score_color(_user.points / _user.ordernum),
