@@ -28,7 +28,7 @@ class Feed extends State<feed> {
               child: CircularProgressIndicator(),
             );
           } else {
-              children: snapshot.data.docs.map((doc) {
+              snapshot.data.docs.map((doc) {
                 zip = doc.get("zipCode");
               }).toList();
 
@@ -50,6 +50,7 @@ class Feed extends State<feed> {
                             name: doc.get('name'),
                             username: doc.get('name'),
                             delivery: doc.get('delivery'),
+                            ordernum: doc.get('NumberOfOrder'),
                             profilePic: NetworkImage(
                                 "${doc.get('pp')}"
                             ),

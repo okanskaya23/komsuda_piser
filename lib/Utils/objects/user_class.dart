@@ -6,8 +6,9 @@ class UserClass {
   String location;
   NetworkImage profilePic;
   String email;
+  int ordernum;
   double points;
   bool delivery;
 
-  UserClass({ this.username, this.name, this.location, this.profilePic, this.email, this.delivery,this.points});
+  UserClass({ this.username, this.ordernum, this.name, this.location, this.profilePic, this.email, this.delivery,this.points});
 }

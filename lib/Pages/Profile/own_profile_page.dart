@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:komsuda_piser_local/Pages/Profile/food_card.dart';
+import 'package:komsuda_piser_local/Utils/Widgets/app_button.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
 import 'package:komsuda_piser_local/Utils/objects/food_class.dart';
 import 'package:komsuda_piser_local/Utils/objects/user_class.dart';
@@ -34,6 +35,7 @@ class OwnProfilePage extends State<ownProfilePage> {
         name: 'ayse',
         location: '34560',
         username: 'ayse',
+        ordernum: 2,
         points: 6,
         profilePic: NetworkImage(
             "https://upload.wikimedia.org/wikipedia/commons/c/c9/CZN_Burak_and_Ramço_%28cropped%29.png"
@@ -57,14 +59,13 @@ class OwnProfilePage extends State<ownProfilePage> {
     }
 
 
-    Color score_color(){
-      var d = _user.points;
+    Color score_color(double d){
 
-      if( d > 8.5){
+      if(d > 3.7){
         return Colors.greenAccent;
-      }else if(d > 7){
+      }else if(d > 3){
         return Colors.amber;
-      }else if(d > 5){
+      }else if(d > 2){
         return Colors.redAccent;
       }
       return Colors.red[900];
@@ -95,8 +96,10 @@ class OwnProfilePage extends State<ownProfilePage> {
                     _user.username = doc.get('name');
                     _user.points = doc.get('score');
                     _user.delivery = doc.get('delivery');
+                    _user.ordernum = doc.get('NumberOfOrder');
                     _user.profilePic = NetworkImage("${doc.get('pp')}");
                   }).toList();
+
                   return Container(
                       decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -182,10 +185,10 @@ class OwnProfilePage extends State<ownProfilePage> {
                                             height: 5.0,
                                           ),
                                           Text(
-                                            "${_user.points}",
+                                            "${_user.points / _user.ordernum}",
                                             style: TextStyle(
                                               fontSize: 20.0,
-                                              color: score_color(),
+                                              color: score_color(_user.points / _user.ordernum),
                                             ),
                                           ),
                                         ],
@@ -194,7 +197,7 @@ class OwnProfilePage extends State<ownProfilePage> {
                                   ],
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),

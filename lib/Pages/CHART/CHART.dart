@@ -25,18 +25,13 @@ class Chart extends State<chart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       resizeToAvoidBottomInset: false,
       backgroundColor: Appcolors.primary,
       body: Padding(
-
-
         padding: context.paddingNormal,
         child: Column(
-
           children: [
             Container(
-
               color: Appcolors.primary,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +42,7 @@ class Chart extends State<chart> {
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return Center(
-                            child: Text("Empty Chart"),
+                            child: Text("Empty Cart"),
                           );
                         } else {
                           return ListView(

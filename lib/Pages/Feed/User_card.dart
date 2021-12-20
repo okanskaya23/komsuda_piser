@@ -10,11 +10,11 @@ class UserCard extends StatelessWidget {
   UserCard({ this.user });
 
   Color puan_rengi(double d){
-    if( d > 8.5){
+    if( d > 3.7){
       return Colors.greenAccent;
-    }else if(d > 7){
+    }else if(d > 3){
       return Colors.amber;
-    }else if(d > 5){
+    }else if(d > 2){
       return Colors.redAccent;
     }
     return Colors.red[900];
@@ -56,10 +56,8 @@ class UserCard extends StatelessWidget {
                     builder: (context) => ProfilePage(user: user),
                   ),
                 );
-
               },
-              child:
-              Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Row(
@@ -89,11 +87,11 @@ class UserCard extends StatelessWidget {
 
                             Row(
                               children: [
-                                Text("Puan: ${user.points} / 10",
+                                Text("Puan: ${user.points / user.ordernum} / 5",
                                   style: TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w400,
-                                    color: puan_rengi(user.points),
+                                    color: puan_rengi(user.points/user.ordernum),
                                     letterSpacing: -1.5,
                                   ),
                                 ),
