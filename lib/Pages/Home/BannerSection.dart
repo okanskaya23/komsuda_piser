@@ -17,28 +17,19 @@ class BannerSection extends StatefulWidget {
 
 class _BannerSectionState extends State<BannerSection> {
   final firestoreInstance = FirebaseFirestore.instance;
-  bool button_check = true;
+
   TextEditingController _editingController = new TextEditingController();
   final duplicatedItems = ["armut", "elma", "arm", "armt", "barbar",];
   var items = [];
-
-  List<String> arr_t = [];
-  List<String> arr_f = [];
-
-
-  var total = 0;
-  var EmailTeyze = "";
 
   @override
   void initState() {
     super.initState();
   }
 
-
-
   void filterSearchResults(String query) {
     List<String> dummySearchList = [];
-    dummySearchList.addAll(button_check ? arr_t : arr_f);
+    dummySearchList.addAll(duplicatedItems);
     if (query.isNotEmpty) {
       List<String> dummyListData = [];
       dummySearchList.forEach((item) {
@@ -54,7 +45,7 @@ class _BannerSectionState extends State<BannerSection> {
     } else {
       setState(() {
         items.clear();
-        items.addAll(button_check ? arr_t : arr_f);
+        items.addAll(duplicatedItems);
       });
     }
   }
@@ -79,24 +70,19 @@ class _BannerSectionState extends State<BannerSection> {
                     child: MaterialButton(
                       color: Appcolors.secondary,
                       height: 45,
-                      onPressed: () async{
-                        button_check = true;
-                        var result = await firestoreInstance
-                            .collection("User")
-                            .get();
-
-                        result.docs.forEach((res) {
-                          arr_t.add(res.get("name"));
-
+                      onPressed: () {
+                        firestoreInstance.collection("User").get().then((querySnapshot) {
+                          querySnapshot.docs.forEach((result) {
+                            print(result.data());
+                          });
                         });
-                        print(arr_t);
                       },
                       child: Text(
                         "Teyze Ara",
                         style: TextStyle(color: Appcolors.primary),
                       ),
                     ),
-                  ),
+                 ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -115,18 +101,7 @@ class _BannerSectionState extends State<BannerSection> {
                       height: 45,
                       child: OutlinedButton(
                         onPressed: () async{
-                          button_check = false;
-                          var result = await firestoreInstance
-                              .collection("Food")
-                              .get();
-
-                          result.docs.forEach((res) {
-                            arr_f.add(res.get("Name"));
-
-                          });
-                          print(arr_f);
-
-                          /*var us = await firestoreInstance
+                          var us = await firestoreInstance
                               .collection("User")
                               .where("email", isEqualTo: FirebaseAuth.instance.currentUser.email)
                               .get();
@@ -175,7 +150,7 @@ class _BannerSectionState extends State<BannerSection> {
                               .get();
                           result1.docs.forEach((res) {
                             print(res.data());
-                          });*/
+                          });
                         },
                         child: Text(
                           "Yemek Ara",
@@ -215,50 +190,8 @@ class _BannerSectionState extends State<BannerSection> {
                           enabledBorder: UnderlineInputBorder(borderSide: BorderSide.none,),
                         ),
                         cursorColor: Colors.yellow,
-                        onChanged: (value) async{
-
+                        onChanged: (value) {
                           filterSearchResults(value);
-                          /*var us = await firestoreInstance
-                              .collection("User")
-                              .get();
-                          var Address = "";
-                          Address = us.docs.first.get("address");
-                          print(us.docs.first.get("address"));
-                          var result = await firestoreInstance
-                              .collection("Chart")
-                              .where("Email_Client", isEqualTo: FirebaseAuth.instance.currentUser.email)
-                              .get();
-
-
-                          result.docs.forEach((res) {
-                            total += res.get("Cost");
-                            arr.add(res.get("Foods"));
-                            EmailTeyze = res.get("Email_Teyze");
-
-
-                          });
-                          print(arr);
-                          firestoreInstance.collection("Order").add(
-                              {
-                                "Email_Teyze" : EmailTeyze,
-                                "Email_Client": FirebaseAuth.instance.currentUser.email,
-                                "Foods" : arr,
-                                "Price" : total,
-                                "Adress" : Address,
-                                "Date" : FieldValue.serverTimestamp(),
-
-                              }
-                          ).then((value){
-                            print(value.id);
-                          });
-                          filterSearchResults(value);
-                          result.docs.forEach((res) {
-                            firestoreInstance.collection("Chart").doc(res.id).delete();
-                          });
-                          setState(() {
-
-                          });*/
-
                         }),
                   ],
                 ),
@@ -275,25 +208,10 @@ class _BannerSectionState extends State<BannerSection> {
                     shrinkWrap: true,
                     itemCount: items.length,
                     itemBuilder: (context, index) {
-
-                      if(button_check == true) {
                         return ListTile(
-                          title: Text("${arr_t[index]}"),
-                          onTap: () async{
-                            //TODO: BURAYA TIKLAYINCA PROFILE PAGE'E GIDECEK
-                          },
+                          title: Text("Listedeki ${items[index]}"),
+                          onTap: () {},
                         );
-                      }
-                      else if (button_check == false){
-                        return ListTile(
-                          title: Text("${arr_f[index]}"),
-                          onTap: () async{
-                            //TODO: BURAYA TIKLAYINCA PROFILE PAGE'E GIDECEK
-
-                          },
-                        );
-                      }
-                      else return Text("");
                     },
                   ),
                 ),
@@ -311,7 +229,7 @@ class _BannerSectionState extends State<BannerSection> {
           child: Column(
             children: <Widget>[
               Image.asset(
-                "assets/images/kuru.jpg",
+                "assets/images/yemek2.png",
                 height: MediaQuery.of(context).size.height * 0.65,
               ),
             ],
