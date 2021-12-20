@@ -68,7 +68,7 @@ class _BannerSectionState extends State<BannerSection> {
                 children: <Widget>[
                   Expanded(
                     child: MaterialButton(
-                      color: Appcolors.secondary,
+                      color: Appcolors.third,
                       height: 45,
                       onPressed: () {
                         firestoreInstance.collection("User").get().then((querySnapshot) {
@@ -79,7 +79,11 @@ class _BannerSectionState extends State<BannerSection> {
                       },
                       child: Text(
                         "Teyze Ara",
-                        style: TextStyle(color: Appcolors.primary),
+                        style: TextStyle(
+                          color: Appcolors.background,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                  ),
@@ -155,14 +159,14 @@ class _BannerSectionState extends State<BannerSection> {
                         child: Text(
                           "Yemek Ara",
                           style: TextStyle(
-                            color: Appcolors.primary,
+                            color: Appcolors.third,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         style: OutlinedButton.styleFrom(
                           side: BorderSide(
-                              color: Appcolors.secondary),
+                              color: Appcolors.third),
                         ),
                       ),
                     ),
@@ -229,7 +233,7 @@ class _BannerSectionState extends State<BannerSection> {
           child: Column(
             children: <Widget>[
               Image.asset(
-                "assets/images/yemek2.png",
+                "assets/images/kuru.jpg",
                 height: MediaQuery.of(context).size.height * 0.65,
               ),
             ],

@@ -37,14 +37,15 @@ class Mail extends State<mail> {
 
   final db = FirebaseFirestore.instance;
   double rating = 0.0; //BU GLOBAL VARIABLE OLMAYACAK, DATABASE'DEN GELECEK
-  String buttonName = "Incoming Orders";
+  String buttonName = "Gelen Sipariş";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Appcolors.secondary,
+        automaticallyImplyLeading: false,
         title: AppButton(
-
           text: buttonName,
           onPressed: buttonPressed,
         ),
@@ -62,62 +63,67 @@ class Mail extends State<mail> {
             );
           }
           else if (TC == "Email_Client") {
-            buttonName = "Incoming Orders";
+            buttonName = "Gelen Sipariş";
             return ListView(
               children: snapshot.data.docs.map((doc) {
-                return Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(doc.get("Email_Teyze").toString()),
-                      // EMAIL TEYZE YERINE KULLANICI ADI GELEBİLİR Mİ?
-                      //Text(doc.get("Cost").toString()),
-                      Container(
-                        child: RatingBar.builder(
-                          minRating: 1,
-                          updateOnDrag: true,
-                          itemSize: 20,
-                          itemPadding: EdgeInsets.symmetric(horizontal: 2),
-                          itemBuilder: (context, _) =>
-                              Icon(Icons.star, color: Colors.amber,),
-                          onRatingUpdate: (rating) =>
-                              setState(() {
-                                buttonName = "Given Orders";
-                                this.rating = rating;
-                                //TODO: BACKEND KISMI BURAYA
-                              }),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text(
+                            doc.get("Foods").toString()
                         ),
-                      ),
-                      AppButton(
-                        text: "Rate",
-                        onPressed:() async{
+                        // EMAIL TEYZE YERINE KULLANICI ADI GELEBİLİR Mİ?
+                        //Text(doc.get("Cost").toString()),
+                        Container(
+                          child: RatingBar.builder(
+                            minRating: 1,
+                            updateOnDrag: true,
+                            itemSize: 20,
+                            itemPadding: EdgeInsets.symmetric(horizontal: 2),
+                            itemBuilder: (context, _) =>
+                                Icon(Icons.star, color: Colors.amber,),
+                            onRatingUpdate: (rating) =>
+                                setState(() {
+                                  buttonName = "Siparişlerim";
+                                  this.rating = rating;
+                                  //TODO: BACKEND KISMI BURAYA
+                                }),
+                          ),
+                        ),
+                        AppButton(
+                          text: "Rate",
+                          onPressed:() async{
 
-                          var rate = rating;
-                          var email = doc.get("Email_Teyze").toString();
-                          var result = await db
-                              .collection("User")
-                              .where("email", isEqualTo: email)
-                              .get();
-                          var current = result.docs.first.id;
-                          await FirebaseFirestore.instance.collection("User").doc(current).update({"score": FieldValue.increment(rating)});
-                          FirebaseFirestore.instance.collection("Order").doc(doc.id).delete();
+                            var rate = rating;
+                            var email = doc.get("Email_Teyze").toString();
+                            var result = await db
+                                .collection("User")
+                                .where("email", isEqualTo: email)
+                                .get();
+                            var current = result.docs.first.id;
+                            await FirebaseFirestore.instance.collection("User").doc(current).update({"score": FieldValue.increment(rating)});
+                            FirebaseFirestore.instance.collection("Order").doc(doc.id).delete();
 
 
 
-                        },
-                      ),
-                      /*Text(
-                        "Rate user: ${rating}",
-                        style: TextStyle(fontSize: 15),
-                      ),*/
-                    ],
+                          },
+                        ),
+                        /*Text(
+                          "Rate user: ${rating}",
+                          style: TextStyle(fontSize: 15),
+                        ),*/
+                      ],
+                    ),
                   ),
                 );
               }).toList(),
             );
           }
           else {
-            buttonName = "Given Orders";
+            buttonName = "Siparişlerim";
 
             return  Container(
               child: StreamBuilder<QuerySnapshot>(

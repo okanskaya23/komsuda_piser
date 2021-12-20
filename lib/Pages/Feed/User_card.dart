@@ -87,7 +87,7 @@ class UserCard extends StatelessWidget {
 
                             Row(
                               children: [
-                                Text("Puan: ${user.points / user.ordernum} / 5",
+                                Text("Puan: ${(user.points / user.ordernum).toStringAsFixed(2)} / 5",
                                   style: TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.w400,

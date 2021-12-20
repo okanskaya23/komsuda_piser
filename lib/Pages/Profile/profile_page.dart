@@ -49,14 +49,14 @@ class _ProfileFirstState extends State<ProfilePage> {
         return Colors.redAccent;
     }
 
-    Color score_color(){
-      var d = _user.points;
+    Color score_color(var d){
 
-      if( d > 8.5){
+
+      if( d > 3.7){
         return Colors.greenAccent;
-      }else if(d > 7){
+      }else if(d > 3){
         return Colors.amber;
-      }else if(d > 5){
+      }else if(d > 2){
         return Colors.redAccent;
       }
       return Colors.red[900];
@@ -161,10 +161,10 @@ class _ProfileFirstState extends State<ProfilePage> {
                                               height: 5.0,
                                             ),
                                             Text(
-                                              "${_user.points}",
+                                              "${(_user.points/_user.ordernum).toStringAsFixed(2)}",
                                               style: TextStyle(
                                                 fontSize: 20.0,
-                                                color: score_color(),
+                                                color: score_color((_user.points/_user.ordernum)),
                                               ),
                                             ),
                                           ],
