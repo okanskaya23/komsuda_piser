@@ -40,7 +40,7 @@ class NavigatorPage extends State<navigatorPage>
       content: HeaderContainer(),
     ),
     ContentView(
-      tab: CustomTab(title: 'Yakındakiler',icon: Icons.dynamic_feed),
+      tab: CustomTab(title: 'Yakındakiler',icon: Icons.feed),
       content: feed(),
     ),
     ContentView(
@@ -56,7 +56,7 @@ class NavigatorPage extends State<navigatorPage>
       content: chart(),
     ),
     ContentView(
-      tab: CustomTab(title: 'Mail',icon: Icons.mail),
+      tab: CustomTab(title: 'Mail',icon: Icons.notifications),
       content: mail(),
     ),
   ];

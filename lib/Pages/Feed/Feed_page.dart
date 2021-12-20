@@ -15,38 +15,56 @@ class feed extends StatefulWidget {
 }
 
 class Feed extends State<feed> {
+  String zip = "34000";
   final db = FirebaseFirestore.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: db.collection('User').where("zipCode", isEqualTo: "34000").snapshots(),
+        stream: db.collection('User').where("email", isEqualTo:FirebaseAuth.instance.currentUser.email).snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else{
-            return ListView(
-              children: snapshot.data.docs.map((doc) {
-                return UserCard(
-                  user: UserClass(
-                    location: doc.get('zipCode'),
-                    email: doc.get('email'),
-                    points: doc.get('score'),
-                    name: doc.get('name'),
-                    username: doc.get('name'),
-                    delivery: doc.get('delivery'),
-                    profilePic: NetworkImage(
-                        "${doc.get('pp')}"
-                    ),
-                  ),
-                );
-              }).toList(),
-            );
+          } else {
+              snapshot.data.docs.map((doc) {
+                zip = doc.get("zipCode");
+              }).toList();
+
+              return StreamBuilder<QuerySnapshot>(
+                stream: db.collection('User').where("zipCode", isEqualTo: zip).snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    return ListView(
+                      children: snapshot.data.docs.map((doc) {
+                        return UserCard(
+                          user: UserClass(
+                            location: doc.get('zipCode'),
+                            email: doc.get('email'),
+                            points: doc.get('score'),
+                            name: doc.get('name'),
+                            username: doc.get('name'),
+                            delivery: doc.get('delivery'),
+                            ordernum: doc.get('NumberOfOrder'),
+                            profilePic: NetworkImage(
+                                "${doc.get('pp')}"
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }
+                },
+              );
           }
         },
       ),
     );
   }
 }
+

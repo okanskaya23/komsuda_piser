@@ -22,51 +22,55 @@ class mail extends StatefulWidget {
 }
 
 class Mail extends State<mail> {
-  void buttonPressed(){
-      if(TC == "Email_Client"){
-        setState(() {
-          TC = "Email_Teyze";
-        });
-      }
-      else{
-        setState(() {
-          TC = "Email_Client";
-        });
-      }
-
+  void buttonPressed() {
+    if (TC == "Email_Client") {
+      setState(() {
+        TC = "Email_Teyze";
+      });
+    }
+    else {
+      setState(() {
+        TC = "Email_Client";
+      });
+    }
   }
+
   final db = FirebaseFirestore.instance;
   double rating = 0.0; //BU GLOBAL VARIABLE OLMAYACAK, DATABASE'DEN GELECEK
+  String buttonName = "Incoming Orders";
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: AppButton(
 
-          text: "Change",
+          text: buttonName,
           onPressed: buttonPressed,
         ),
-        centerTitle: true
-        ,
+        centerTitle: true,
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: db.collection('Order').where(TC, isEqualTo: FirebaseAuth.instance.currentUser.email).limit(10).snapshots(),
+        stream: db.collection('Order').where(
+            TC, isEqualTo: FirebaseAuth.instance.currentUser.email)
+            .limit(10)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else
+          }
+          else if (TC == "Email_Client") {
+            buttonName = "Incoming Orders";
             return ListView(
               children: snapshot.data.docs.map((doc) {
                 return Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(doc.get("Email_Teyze").toString()), // EMAIL TEYZE YERINE KULLANICI ADI GELEBİLİR Mİ?
+                      Text(doc.get("Email_Teyze").toString()),
+                      // EMAIL TEYZE YERINE KULLANICI ADI GELEBİLİR Mİ?
                       //Text(doc.get("Cost").toString()),
                       Container(
                         child: RatingBar.builder(
@@ -74,16 +78,33 @@ class Mail extends State<mail> {
                           updateOnDrag: true,
                           itemSize: 20,
                           itemPadding: EdgeInsets.symmetric(horizontal: 2),
-                          itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber,),
-                          onRatingUpdate: (rating) => setState(() {
-                            this.rating = rating;
-                            //TODO: BACKEND KISMI BURAYA
-                          }),
+                          itemBuilder: (context, _) =>
+                              Icon(Icons.star, color: Colors.amber,),
+                          onRatingUpdate: (rating) =>
+                              setState(() {
+                                buttonName = "Given Orders";
+                                this.rating = rating;
+                                //TODO: BACKEND KISMI BURAYA
+                              }),
                         ),
                       ),
                       AppButton(
                         text: "Rate",
-                        onPressed: () {},
+                        onPressed:() async{
+
+                          var rate = rating;
+                          var email = doc.get("Email_Teyze").toString();
+                          var result = await db
+                              .collection("User")
+                              .where("email", isEqualTo: email)
+                              .get();
+                          var current = result.docs.first.id;
+                          await FirebaseFirestore.instance.collection("User").doc(current).update({"score": FieldValue.increment(rating)});
+                          FirebaseFirestore.instance.collection("Order").doc(doc.id).delete();
+
+
+
+                        },
                       ),
                       /*Text(
                         "Rate user: ${rating}",
@@ -94,8 +115,59 @@ class Mail extends State<mail> {
                 );
               }).toList(),
             );
+          }
+          else {
+            buttonName = "Given Orders";
+
+            return  Container(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: db.collection('Order').where(TC, isEqualTo: FirebaseAuth.instance.currentUser.email).snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: Text("Empty Chart"),
+                    );
+                  } else {
+                    return ListView(
+                      children: snapshot.data.docs.map((doc) {
+                        return Card(
+                          child: ListTile(
+                            tileColor: Colors.white,
+                            leading:
+                            Icon(Icons.add_alert_rounded),
+                            title: Text("Incoming order list: ${doc.get("Foods").toString()}, "
+                                "from: ${doc.get("Email_Client").toString()}, "
+                                "delivery address: ${doc.get("Adress").toString()}"),
+                            onTap: () async {
+                              /*var result = await db
+                                  .collection("Chart")
+                                  .where("Email_Client",
+                                  isEqualTo: FirebaseAuth
+                                      .instance.currentUser.email)
+                                  .where("Foods",
+                                  isEqualTo:
+                                  doc.get("Foods").toString())
+                                  .get();
+                              db
+                                  .collection("Chart")
+                                  .doc(result.docs.first.id)
+                                  .delete();*/
+                            },
+                            subtitle: Text("Total amount: ${doc.get("Price").toString()}₺"),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }
+                },
+              ),
+              height: MediaQuery. of(context). size. height/3,
+              width: MediaQuery. of(context). size. width,
+            );
+          }
         },
       ),
+
     );
   }
 }

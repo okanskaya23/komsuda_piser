@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:komsuda_piser_local/Utils/Widgets/app_button.dart';
 import 'package:komsuda_piser_local/Utils/app_colors.dart';
 import 'package:komsuda_piser_local/Utils/Widgets/app_textField.dart';
@@ -29,7 +30,6 @@ class Settings extends State<settings> {
     return Scaffold(
 
       resizeToAvoidBottomInset: false,
-      backgroundColor: Appcolors.primary,
 
       body: Padding(
         padding: context.paddingNormal,
@@ -39,7 +39,6 @@ class Settings extends State<settings> {
 
             Container(
 
-              color: Appcolors.primary,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -70,6 +69,7 @@ class Settings extends State<settings> {
                     text: 'Yemek Fiyatı',
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
+                    icon: Icon(FontAwesomeIcons.moneyBill),
                     controller: passwordController,
                   ),
                   SizedBox(height: context.height*0.01,),
@@ -77,13 +77,15 @@ class Settings extends State<settings> {
                     text: 'Yemek Resmi',
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
+                    icon: Icon(Icons.fastfood),
                     controller: ppURLController,
                   ),
                   SizedBox(height: context.height*0.01,),
                   AppTextField(
-                    text: 'Kaç adet yemek var',
+                    text: 'Porsyon Sayısı',
                     readOnly: false,
                     height: MediaQuery. of(context). size. height/18,
+                    icon: Icon(Icons.confirmation_number_rounded),
                     controller: numberOfServesController,
                   ),
                   SizedBox(height: context.height*0.01,),

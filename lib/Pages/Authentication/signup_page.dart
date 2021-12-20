@@ -134,6 +134,8 @@ class Signup extends State<signup> {
                             "score": "5",
                             "delivery": deliveryController.text,
                             "address" : AddressController.text,
+                            "NumberOfOrder": 1,
+
 
                           }).then((value){
                         print(value.id);
